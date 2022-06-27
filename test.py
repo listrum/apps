@@ -33,11 +33,11 @@ node2 = Node()
 node1.set_storage("listrum.com:2526", "test/node1")
 node2.set_storage("listrum.com", "test/node2")
 
-node1.set_owner("9CS0ZhW-9bhqt0wx6")
-node2.set_owner("9CS0ZhW-9bhqt0wx6")
+node1.set_owner("gO5qyZHrd17GlFsuH")
+node2.set_owner("gO5qyZHrd17GlFsuH")
 
-node1.start("listrum/keys/fullchain1.pem",
-            "listrum/keys/privkey1.pem")
+node1.start("keys/fullchain1.pem",
+            "keys/privkey1.pem")
 
-node2.start("listrum/keys/fullchain1.pem",
-            "listrum/keys/privkey1.pem", 2526)
+node2.start("keys/fullchain1.pem",
+            "keys/privkey1.pem", 2526)
