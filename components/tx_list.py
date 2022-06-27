@@ -1,5 +1,5 @@
 import json
-from errors import Error
+from components.errors import Error
 
 
 class TxList:

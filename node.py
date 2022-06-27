@@ -1,10 +1,10 @@
 import json
-from https import Server
-from issue import Issue
-from send import Send
-from nodeweb import NodeWeb
-from tx_list import TxList
-from storage import Storage
+from utils.https import Server
+from methods.issue import Issue
+from methods.send import Send
+from components.nodeweb import NodeWeb
+from components.tx_list import TxList
+from components.storage import Storage
 
 
 class Node(Server):

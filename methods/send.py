@@ -1,8 +1,8 @@
 import json
 import time
-from crypto import pad_key, verify
-from errors import Error
-from storage import Storage
+from utils.crypto import pad_key, verify
+from components.errors import Error
+from components.storage import Storage
 
 
 class Send:

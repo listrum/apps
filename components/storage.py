@@ -1,7 +1,7 @@
 import os
 from threading import Thread
 
-from nodeweb import NodeWeb
+from components.nodeweb import NodeWeb
 
 
 class Storage:

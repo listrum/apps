@@ -1,9 +1,9 @@
 import json
-from errors import Error
+from components.errors import Error
 import time
-from crypto import verify
-from crypto import pad_key
-from storage import Storage
+from utils.crypto import verify
+from utils.crypto import pad_key
+from components.storage import Storage
 
 
 class Issue:

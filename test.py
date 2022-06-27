@@ -18,9 +18,8 @@ import socket
 import requests
 from threading import Thread
 import urllib.parse
-from https import Request
-import https
-from listrum_web import ListrumWeb
+from utils.https import Request
+import utils.https as https
 from node import Node
 
 try:
@@ -42,7 +41,3 @@ node1.start("listrum/keys/fullchain1.pem",
 
 node2.start("listrum/keys/fullchain1.pem",
             "listrum/keys/privkey1.pem", 2526)
-
-
-ListrumWeb(2225, "listrum/keys/fullchain1.pem",
-           "listrum/keys/privkey1.pem")
