@@ -1,6 +1,6 @@
+test.py
 **/__pycache__
 .vscode/**
 **/test
 **/keys
 node/**
-**/test.py
