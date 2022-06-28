@@ -34,7 +34,7 @@ class Client:
 
         data = data + str(time_stamp)
 
-        print(data)
+        # print(data)
 
         data = SHA256.new(data.encode())
         sign = DSS.new(self.priv, 'fips-186-3').sign(data)
@@ -53,12 +53,13 @@ class Client:
 
     def send(self, to: str, value: int) -> Response:
 
-        to = [{
+        to = {
             "to": to,
             "value": value
-        }]
+        }
 
-        owner = self.get_owner(json.dumps(to).replace(" ", ""))
+        # owner = self.get_owner(json.dumps(to).replace(" ", ""))
+        owner = self.get_owner(json.dumps(to))
 
         data = {
             "to": to,

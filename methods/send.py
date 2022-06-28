@@ -8,15 +8,17 @@ from components.storage import Storage
 class Send:
 
     def __init__(self, params: dict) -> None:
-        self.tx_list = list(params["to"])
+        self.data = params["to"]
+        self.to = str(params["to"]["to"])
+        self.value = int(params["to"]["value"])
+
         self.owner = str(params["from"]["owner"])
         self.key = str(pad_key(self.owner))
         self.time = int(params["from"]["time"])
         self.sign = str(params["from"]["sign"])
 
     def verify(self) -> None:
-        verify(self.owner, json.dumps(self.tx_list).replace(
-            " ", "") + str(self.time), self.sign)
+        verify(self.owner, json.dumps(self.data) + str(self.time), self.sign)
 
     def check_time(self) -> None:
         if abs(time.time()*1000 - self.time) > 2000:
@@ -25,21 +27,22 @@ class Send:
     def check_value(self, storage: Storage) -> None:
         self.from_value = storage.get(self.key)
 
-        self.to_value = 0
+        # self.to_value = int(self.tx_list["value"])
 
-        for tx in self.tx_list:
+        # for tx in self.tx_list:
 
-            if int(tx["value"]) <= 0:
-                raise Error("WrongValue")
+        if self.value <= 0:
+            raise Error("WrongValue")
 
-            self.to_value += int(tx["value"])
-
-        if self.from_value < self.to_value:
+        #     self.to_value += int(tx["value"])
+        print(1)
+        if self.from_value < self.value:
             raise Error("NotEnough")
 
     def add_value(self, storage: Storage) -> None:
 
-        storage.set(self.key, self.from_value - self.to_value)
+        storage.set(self.key, self.from_value - self.value)
 
-        for tx in self.tx_list:
-            storage.set(tx["to"], storage.get(tx["to"]) + int(tx["value"]))
+        # for tx in self.tx_list:
+        storage.set(self.to, storage.get(
+            self.to) + self.value)
