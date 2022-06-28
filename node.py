@@ -107,9 +107,9 @@ if __name__ == "__main__":
         command = input("/").split(" ")
 
         if command[0] == "download_node":
-            if len(command) == 2:
+            try:
                 node.storage.set_node(command[1])
-            else:
+            except:
                 node.storage.set_node("")
 
         if command[0] == "remove_node":
@@ -119,5 +119,5 @@ if __name__ == "__main__":
             node.add_node(command[1])
 
         if command[0] == "list":
-            for node in node.nodes:
-                print(node.address)
+            for web_node in node.nodes:
+                print(web_node.address)
