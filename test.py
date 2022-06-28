@@ -18,29 +18,30 @@ import socket
 import requests
 from threading import Thread
 import urllib.parse
+from client import Client
 from utils.https import Request
 import utils.https as https
 from node import Node
+import sys
 
-try:
-    os.mkdir('test')
-except:
-    pass
+# try:
+#     os.rmdir("node")
+# except:
+#     pass
 
-test = input()
-print(int(test))
+node = Node()
+node.set_storage()
+node.start("keys/fullchain.pem",
+           "keys/privkey.pem")
 
-# node1 = Node()
-# node2 = Node()
 
-# node1.set_storage("listrum.com:2526", "test/node1")
-# node2.set_storage("listrum.com", "test/node2")
+cli.add_node(["listrum.com"])
+node.owner = cli.key
+# res = cli.issue(8)
+# print(res.text)
 
-# node1.set_owner("gO5qyZHrd17GlFsuH")
-# node2.set_owner("gO5qyZHrd17GlFsuH")
+res = cli.send("123", 1)
+print(res.text)
 
-# node1.start("keys/fullchain1.pem",
-#             "keys/privkey1.pem")
-
-# node2.start("keys/fullchain1.pem",
-#             "keys/privkey1.pem", 2526)
+input()
+print(cli.balance())

@@ -1,5 +1,7 @@
 import json
 import requests
+from requests import Response
+from urllib import parse
 
 
 class NodeWeb:
@@ -14,8 +16,9 @@ class NodeWeb:
         res = requests.get(self.address + "/balance/" + owner)
         return int(res.text)
 
-    def issue(self, body: str) -> None:
-        requests.get(self.address + "/issue/" + json.dumps(body))
+    def issue(self, body: str) -> Response:
 
-    def send(self, body: str) -> None:
-        requests.get(self.address + "/send/" + json.dumps(body))
+        return requests.get(self.address + "/issue/" + json.dumps(body))
+
+    def send(self, body: str) -> Response:
+        return requests.get(self.address + "/send/" + json.dumps(body))

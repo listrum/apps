@@ -12,13 +12,11 @@ class Node(Server):
     def __init__(self) -> None:
         self.tx_list = TxList(3)
         self.nodes = []
+        self.owner = ""
 
     def start(self, certfile: str, keyfile: str, port: int = 2525) -> None:
         self.start_server(port, certfile,
                           keyfile)
-
-    def set_owner(self, owner: str) -> None:
-        self.owner = owner
 
     def set_storage(self, node: str = "", dir: str = "node") -> None:
         self.storage = Storage(dir)
@@ -43,9 +41,11 @@ class Node(Server):
             return self.storage.get(body)
 
         if method == "issue":
+
             issue = Issue(body)
 
             issue.verify()
+
             issue.check_time()
             issue.check_owner(self.owner)
 
@@ -79,11 +79,11 @@ if __name__ == "__main__":
 
     node.set_storage(backup, path)
 
-    owner = input("Owner address (gO5qyZHrd17GlFsuH): ")
-    if not owner:
-        owner = "gO5qyZHrd17GlFsuH"
+    # owner = input("Owner address (gO5qyZHrd17GlFsuH): ")
+    # if not owner:
+    #     owner = "gO5qyZHrd17GlFsuH"
 
-    node.set_owner(owner)
+    # node.set_owner(owner)
 
     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
     if not cert:
@@ -121,3 +121,6 @@ if __name__ == "__main__":
         if command[0] == "list":
             for web_node in node.nodes:
                 print(web_node.address)
+
+        if command[0] == "set_owner":
+            node.owner = command[1]

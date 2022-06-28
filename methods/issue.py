@@ -1,4 +1,3 @@
-import json
 from components.errors import Error
 import time
 from utils.crypto import verify
@@ -8,9 +7,13 @@ from components.storage import Storage
 
 class Issue:
     def __init__(self, params: dict) -> None:
+        # print(params["from"]["owner"])
         self.owner = params["from"]["owner"]
+
         self.key = pad_key(self.owner)
+
         self.time = int(params["from"]["time"])
+
         self.sign = params["from"]["sign"]
         self.value = int(params["value"])
 
