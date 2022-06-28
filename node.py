@@ -97,4 +97,7 @@ if __name__ == "__main__":
         command = input("/").split(" ")
 
         if command[0] == "download_node":
-            node.storage.set_node(command[1])
+            if command.length == 2:
+                node.storage.set_node(command[1])
+            else:
+                node.storage.set_node("")

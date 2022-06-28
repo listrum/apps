@@ -30,7 +30,10 @@ class Storage:
             return 0
 
     def set_node(self, address: str) -> None:
-        self.node = NodeWeb(address)
+        if address:
+            self.node = NodeWeb(address)
+        else:
+            self.node = ""
 
     def from_node(self, owner: str) -> str:
         balance = self.node.balance(owner)
