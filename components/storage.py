@@ -11,7 +11,7 @@ class Storage:
             dir += "/"
 
         try:
-            os.mkdir(dir)
+            os.makedirs(dir)
         except:
             pass
 

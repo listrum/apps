@@ -27,17 +27,20 @@ try:
 except:
     pass
 
-node1 = Node()
-node2 = Node()
+key = input("Key file: ")
+print(key)
 
-node1.set_storage("listrum.com:2526", "test/node1")
-node2.set_storage("listrum.com", "test/node2")
+# node1 = Node()
+# node2 = Node()
 
-node1.set_owner("gO5qyZHrd17GlFsuH")
-node2.set_owner("gO5qyZHrd17GlFsuH")
+# node1.set_storage("listrum.com:2526", "test/node1")
+# node2.set_storage("listrum.com", "test/node2")
 
-node1.start("keys/fullchain1.pem",
-            "keys/privkey1.pem")
+# node1.set_owner("gO5qyZHrd17GlFsuH")
+# node2.set_owner("gO5qyZHrd17GlFsuH")
 
-node2.start("keys/fullchain1.pem",
-            "keys/privkey1.pem", 2526)
+# node1.start("keys/fullchain1.pem",
+#             "keys/privkey1.pem")
+
+# node2.start("keys/fullchain1.pem",
+#             "keys/privkey1.pem", 2526)

@@ -57,3 +57,40 @@ class Node(Server):
 
             for node in self.nodes:
                 node.send(body)
+
+
+if __name__ == "__main__":
+    node = Node()
+
+    backup = input("Backup node address (node.listrum.com): ")
+    if not backup:
+        backup = "node.listrum.com"
+
+    path = input("Storage path (node/): ")
+    if not path:
+        path = "node"
+
+    node.set_storage(backup, path)
+
+    owner = input("Owner address (gO5qyZHrd17GlFsuH): ")
+    if not owner:
+        owner = "gO5qyZHrd17GlFsuH"
+
+    node.set_owner(owner)
+
+    cert = input("Path to SSL certificate (keys/fullchain.pem): ")
+    if not cert:
+        cert = "keys/fullchain.pem"
+
+    key = input("Path to SLL private key (keys/privkey.pem): ")
+    if not key:
+        key = "keys/privkey.pem"
+
+    port = input("Node port (2525): ")
+    if not port:
+        port = 2525
+    port = int(port)
+
+    node.start(cert, key, port)
+
+    print("Node started!")
