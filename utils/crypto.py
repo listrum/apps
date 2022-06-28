@@ -12,7 +12,7 @@ def pad_key(key: str) -> str:
 
 
 def verify(key: str, data: str, sign: str) -> bool:
-    # print(key, data, sign)
+    print(key, data, sign)
     key = urlsafe_b64decode(key)
 
     key = ECC.import_key(key)

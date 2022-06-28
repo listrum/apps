@@ -18,7 +18,8 @@ class Send:
         self.sign = str(params["from"]["sign"])
 
     def verify(self) -> None:
-        verify(self.owner, json.dumps(self.data) + str(self.time), self.sign)
+        verify(self.owner, json.dumps(self.data).replace(
+            " ", "") + str(self.time), self.sign)
 
     def check_time(self) -> None:
         if abs(time.time()*1000 - self.time) > 2000:
