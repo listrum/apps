@@ -27,8 +27,8 @@ try:
 except:
     pass
 
-key = input("Key file: ")
-print(key)
+test = input()
+print(int(test))
 
 # node1 = Node()
 # node2 = Node()

@@ -20,17 +20,17 @@ class Node(Server):
     def set_owner(self, owner: str) -> None:
         self.owner = owner
 
-    def set_storage(self, node: str,  dir: str = "listrum_storage") -> None:
-        self.nodes.append(NodeWeb(node))
-        self.storage = Storage(dir, node)
+    def set_storage(self, node: str = "", dir: str = "node") -> None:
+        self.storage = Storage(dir)
+
+        if node:
+            self.nodes.append(NodeWeb(node))
+            self.storage.set_node(node)
 
     def on_data(self, method: str, body):
 
         if method == "balance":
             return self.storage.get(body)
-
-        # if method == "list":
-        #     return self.tx_list.list
 
         if method == "issue":
             issue = Issue(body)
@@ -62,10 +62,7 @@ class Node(Server):
 if __name__ == "__main__":
     node = Node()
 
-    backup = input("Backup node address (node.listrum.com): ")
-    if not backup:
-        backup = "node.listrum.com"
-
+    backup = input("Download node address (optional): ")
     path = input("Storage path (node/): ")
     if not path:
         path = "node"
@@ -94,3 +91,10 @@ if __name__ == "__main__":
     node.start(cert, key, port)
 
     print("Node started!")
+    print("Command line:")
+
+    while True:
+        command = input("/").split(" ")
+
+        if command[0] == "download_node":
+            node.storage.set_node(command[1])

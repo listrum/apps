@@ -1,12 +1,12 @@
 import os
+from re import A
 from threading import Thread
-
 from components.nodeweb import NodeWeb
 
 
 class Storage:
 
-    def __init__(self, dir: str, node: str) -> None:
+    def __init__(self, dir: str) -> None:
         if dir[-1:] != "/":
             dir += "/"
 
@@ -16,7 +16,7 @@ class Storage:
             pass
 
         self.dir = dir
-        self.node = NodeWeb(node)
+        self.node = ""
 
     def get(self, owner: str) -> int:
         try:
@@ -24,12 +24,17 @@ class Storage:
                 return int(f.read())
 
         except:
-            Thread(target=self.from_node, args=(owner,)).start()
+            if self.node:
+                Thread(target=self.from_node, args=(owner,)).start()
 
             return 0
 
+    def set_node(self, address: str) -> None:
+        self.node = NodeWeb(address)
+
     def from_node(self, owner: str) -> str:
         balance = self.node.balance(owner)
+
         try:
             open(self.dir + owner)
         except:
