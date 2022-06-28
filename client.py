@@ -70,7 +70,7 @@ class Client:
         return self.nodes[rand_node].send(data)
 
     def issue(self, value: int) -> Response:
-        owner = self.get_owner('"' + str(value) + '"')
+        owner = self.get_owner(str(value))
 
         data = {
             "value": value,

@@ -34,7 +34,6 @@ node.set_storage()
 node.start("keys/fullchain.pem",
            "keys/privkey.pem")
 
-
 cli.add_node(["listrum.com"])
 node.owner = cli.key
 # res = cli.issue(8)

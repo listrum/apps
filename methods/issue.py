@@ -18,8 +18,8 @@ class Issue:
         self.value = int(params["value"])
 
     def verify(self) -> None:
-        verify(self.owner, '"' + str(self.value) +
-               '"' + str(self.time), self.sign)
+        verify(self.owner, str(self.value) +
+               str(self.time), self.sign)
 
     def check_time(self) -> None:
         if abs(time.time()*1000 - self.time) > 2000:
