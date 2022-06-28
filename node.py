@@ -27,6 +27,16 @@ class Node(Server):
             self.nodes.append(NodeWeb(node))
             self.storage.set_node(node)
 
+    def add_node(self, address: str) -> None:
+        self.nodes.append(NodeWeb(address))
+
+    def remove_node(self, address: str) -> None:
+        nodes = self.nodes
+
+        for node in nodes:
+            if node.address.find(address) >= 0:
+                nodes.remove(node)
+
     def on_data(self, method: str, body):
 
         if method == "balance":
@@ -97,7 +107,17 @@ if __name__ == "__main__":
         command = input("/").split(" ")
 
         if command[0] == "download_node":
-            if command.length == 2:
+            if len(command) == 2:
                 node.storage.set_node(command[1])
             else:
                 node.storage.set_node("")
+
+        if command[0] == "remove_node":
+            node.remove_node(command[1])
+
+        if command[0] == "add_node":
+            node.add_node(command[1])
+
+        if command[0] == "list":
+            for node in node.nodes:
+                print(node.address)
