@@ -59,7 +59,6 @@ class Client:
         }
 
         owner = self.get_owner(json.dumps(to).replace(" ", ""))
-        # owner = self.get_owner(json.dumps(to))
 
         data = {
             "to": to,

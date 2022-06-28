@@ -28,15 +28,9 @@ class Send:
     def check_value(self, storage: Storage) -> None:
         self.from_value = storage.get(self.key)
 
-        # self.to_value = int(self.tx_list["value"])
-
-        # for tx in self.tx_list:
-
         if self.value <= 0:
             raise Error("WrongValue")
 
-        #     self.to_value += int(tx["value"])
-        print(1)
         if self.from_value < self.value:
             raise Error("NotEnough")
 
@@ -44,6 +38,5 @@ class Send:
 
         storage.set(self.key, self.from_value - self.value)
 
-        # for tx in self.tx_list:
         storage.set(self.to, storage.get(
             self.to) + self.value)
