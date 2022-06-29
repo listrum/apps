@@ -1,4 +1,5 @@
 import json
+import time
 from components.errors import Error
 
 
@@ -8,14 +9,17 @@ class TxList:
         self.list = []
         self.max_length = max_length
 
-    def add(self, method, body):
-        tx = "/" + method + "/" + json.dumps(body)
+    def add(self, method_obj):
+        # tx = "/" + method + "/" + json.dumps(body)
 
-        if self.list.count(tx) > 0:
+        if self.list.count(method_obj) > 0:
             raise Error("Already sent")
 
-        if len(self.list) > self.max_length:
-            # self.list = self.list[len(self.list) - self.max_length:]
-            self.list = self.list[1:]
+        if abs(self.list[0].time - time.time()) > 2000:
+            self.list.pop(0)
 
-        self.list.append(tx)
+        # if len(self.list) > self.max_length:
+        #     # self.list = self.list[len(self.list) - self.max_length:]
+        #     self.list = self.list[1:]
+
+        self.list.append(method_obj)
