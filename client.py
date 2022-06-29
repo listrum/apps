@@ -1,4 +1,4 @@
-from base64 import urlsafe_b64encode
+from base64 import urlsafe_b64decode, urlsafe_b64encode
 import json
 import math
 from random import randint
@@ -18,25 +18,25 @@ class Client:
         if not key:
             self.priv = ECC.generate(curve='P-256')
         else:
-            self.priv = ECC.import_key(key)
+            self.priv = ECC.import_key(urlsafe_b64decode(key))
 
         self.nodes = []
-        self.owner = urlsafe_b64encode(
-            self.priv.public_key().export_key(format="DER")).decode()
+
+        self.owner = self.priv.public_key().export_key(format="DER")
+        self.owner = urlsafe_b64encode(self.owner).decode()
+
         self.key = pad_key(self.owner)
 
     def export_priv(self) -> str:
-        return self.priv.export_key(format="PEM")
+        return urlsafe_b64encode(self.priv.export_key(format="DER")).decode()
 
     def get_owner(self, data: str) -> dict:
 
         time_stamp = int(time.time()*1000)
 
         data = data + str(time_stamp)
-
-        # print(data)
-
         data = SHA256.new(data.encode())
+
         sign = DSS.new(self.priv, 'fips-186-3').sign(data)
 
         owner = {
@@ -47,9 +47,8 @@ class Client:
 
         return owner
 
-    def add_node(self, nodes: list) -> Response:
-        for address in nodes:
-            self.nodes.append(NodeWeb(address))
+    def add_node(self, address: str) -> None:
+        self.nodes.append(NodeWeb(address))
 
     def send(self, to: str, value: int) -> Response:
 
@@ -66,7 +65,7 @@ class Client:
         }
 
         rand_node = randint(0, len(self.nodes)-1)
-        # print(data)
+
         return self.nodes[rand_node].send(data)
 
     def issue(self, value: int) -> Response:
@@ -78,6 +77,7 @@ class Client:
         }
 
         rand_node = randint(0, len(self.nodes)-1)
+
         return self.nodes[rand_node].issue(data)
 
     def balance(self) -> int:
@@ -94,3 +94,27 @@ class Client:
             Error("No nodes")
 
         return min
+
+
+if __name__ == "__main__":
+    cli = Client(input("Private key (optional): "))
+    cli.add_node(input("Node: "))
+
+    while True:
+        command = input("/").split(" ")
+
+        if command[0] == "balance":
+            print(cli.balance())
+
+        if command[0] == "add_node":
+            cli.add_node(command[1])
+
+        if command[0] == "list":
+            for node in cli.nodes:
+                print(node.address)
+
+        if command[0] == "issue":
+            cli.issue(command[1])
+
+        if command[0] == "send":
+            cli.send(command[1], command[2])
