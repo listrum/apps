@@ -79,12 +79,6 @@ if __name__ == "__main__":
 
     node.set_storage(backup, path)
 
-    # owner = input("Owner address (gO5qyZHrd17GlFsuH): ")
-    # if not owner:
-    #     owner = "gO5qyZHrd17GlFsuH"
-
-    # node.set_owner(owner)
-
     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
     if not cert:
         cert = "keys/fullchain.pem"
@@ -106,21 +100,21 @@ if __name__ == "__main__":
     while True:
         command = input("/").split(" ")
 
-        if command[0] == "download_node":
+        if command[0] in ["download_node", "download", "mainnode", "main_node"]:
             try:
                 node.storage.set_node(command[1])
             except:
                 node.storage.set_node("")
 
-        if command[0] == "remove_node":
+        if command[0] in ["remove_node", "remove", "removenode"]:
             node.remove_node(command[1])
 
-        if command[0] == "add_node":
+        if command[0] in ["add_node", "add", "addnode"]:
             node.add_node(command[1])
 
-        if command[0] == "list":
+        if command[0] in ["list", "nodes"]:
             for web_node in node.nodes:
                 print(web_node.address)
 
-        if command[0] == "set_owner":
+        if command[0] in ["set_owner", "owner", "setowner"]:
             node.owner = command[1]
