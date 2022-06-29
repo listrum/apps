@@ -49,7 +49,7 @@ class Node(Server):
             issue.check_time()
             issue.check_owner(self.owner)
 
-            self.tx_list.add(method, body)
+            self.tx_list.add(issue)
             issue.add(self.storage)
 
             for node in self.nodes:
@@ -62,7 +62,7 @@ class Node(Server):
             send.check_time()
             send.check_value(self.storage)
 
-            self.tx_list.add(method, body)
+            self.tx_list.add(send)
             send.add_value(self.storage)
 
             for node in self.nodes:

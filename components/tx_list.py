@@ -10,16 +10,12 @@ class TxList:
         self.max_length = max_length
 
     def add(self, method_obj):
-        # tx = "/" + method + "/" + json.dumps(body)
 
-        if self.list.count(method_obj) > 0:
-            raise Error("Already sent")
-
-        if abs(self.list[0].time - time.time()) > 2000:
-            self.list.pop(0)
-
-        # if len(self.list) > self.max_length:
-        #     # self.list = self.list[len(self.list) - self.max_length:]
-        #     self.list = self.list[1:]
+        for method in self.list:
+            if method.sign == method_obj.sign:
+                raise Error("Already sent")
 
         self.list.append(method_obj)
+
+        if abs(self.list[0].time - time.time()*1000) > 2000:
+            self.list.pop(0)
