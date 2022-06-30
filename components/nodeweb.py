@@ -22,3 +22,6 @@ class NodeWeb:
 
     def send(self, body: str) -> Response:
         return requests.get(self.address + "/send/" + json.dumps(body))
+
+    def history(self, owner: str) -> Response:
+        return requests.get(self.address + "/history/" + owner)

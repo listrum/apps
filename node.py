@@ -1,4 +1,5 @@
 import json
+from threading import Thread
 from utils.https import Server
 from methods.issue import Issue
 from methods.send import Send
@@ -33,7 +34,7 @@ class Node(Server):
 
         for node in nodes:
             if node.address.find(address) >= 0:
-                nodes.remove(node)
+                self.nodes.remove(node)
 
     def on_data(self, method: str, body):
 
@@ -55,6 +56,8 @@ class Node(Server):
             for node in self.nodes:
                 node.issue(body)
 
+            return
+
         if method == "send":
             send = Send(body)
 
@@ -68,9 +71,20 @@ class Node(Server):
             for node in self.nodes:
                 node.send(body)
 
+            Thread(target=self.on_send, args=(send,)).start()
 
-if __name__ == "__main__":
-    node = Node()
+            return
+
+        return self.new_method(method, body)
+
+    def on_send(self, data: Send) -> None:
+        pass
+
+    def new_method(self, method: str, body):
+        pass
+
+
+def create_node(node: Node) -> Node:
 
     backup = input("Download node address (optional): ")
     path = input("Storage path (node/): ")
@@ -97,24 +111,35 @@ if __name__ == "__main__":
     print("Node started!")
     print("Command line:")
 
+    return node
+
+
+def check_command(node: Node, command: list) -> None:
+
+    if command[0] in ["download", "main"]:
+        try:
+            node.storage.set_node(command[1])
+        except:
+            node.storage.set_node("")
+
+    if command[0] in ["remove"]:
+        node.remove_node(command[1])
+
+    if command[0] in ["add", "node"]:
+        node.add_node(command[1])
+
+    if command[0] in ["list", "nodes"]:
+        for web_node in node.nodes:
+            print(web_node.address)
+
+    if command[0] in ["owner"]:
+        node.owner = command[1]
+
+
+if __name__ == "__main__":
+    node = Node()
+    create_node(node)
+
     while True:
         command = input("/").split(" ")
-
-        if command[0] in ["download_node", "download", "mainnode", "main_node"]:
-            try:
-                node.storage.set_node(command[1])
-            except:
-                node.storage.set_node("")
-
-        if command[0] in ["remove_node", "remove", "removenode"]:
-            node.remove_node(command[1])
-
-        if command[0] in ["add_node", "add", "addnode"]:
-            node.add_node(command[1])
-
-        if command[0] in ["list", "nodes"]:
-            for web_node in node.nodes:
-                print(web_node.address)
-
-        if command[0] in ["set_owner", "owner", "setowner"]:
-            node.owner = command[1]
+        check_command(node, command)

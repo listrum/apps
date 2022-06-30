@@ -88,53 +88,76 @@ class Client:
         return self.nodes[rand_node].issue(data)
 
     def balance(self) -> int:
-        min = 9007199254740991
+        balance = -1
         res = 0
 
         for node in self.nodes:
             res = node.balance(self.key)
 
-            if res < min:
-                min = res
+            if res < balance or balance < 0:
+                balance = res
 
-        if min == 9007199254740991:
+        if balance < 0:
             Error("No nodes")
 
-        return min
+        return balance
+
+
+def check_command(cli: Client, command: list) -> None:
+
+    if command[0] in ["remove_node", "delete_node", "remove"]:
+        cli.remove_node(command[1])
+
+    if command[0] in ["add_node", "node", "add"]:
+        cli.add_node(command[1])
+
+    if command[0] in ["list", "nodes"]:
+        for node in cli.nodes:
+            print(node.address)
+
+    if command[0] in ["issue", "mint"]:
+        cli.issue(command[1])
+        print(cli.balance())
+
+    if command[0] == "send":
+        if len(str(command[1])) == 17:
+            cli.send(command[1], command[2])
+        else:
+            cli.send(command[2], command[1])
+
+        print(cli.balance())
+
+    if command[0] in ["address", "key", "wallet", "balance"]:
+        print(cli.key)
+        print(cli.balance())
+
+    if command[0] in ["privkey", "private", "priv", "export"]:
+        print(cli.export_priv())
+
+    if command[0] == "history":
+        if len(command) < 2:
+            res = cli.nodes[0].history(cli.key)
+        else:
+            res = NodeWeb(command[1]).history(cli.key)
+
+        for tx in json.loads(res.text):
+            print(tx)
+
+
+def create_client() -> Client:
+    cli = Client(input("Private key (optional): "))
+
+    node = input("Node: ")
+    if node:
+        cli.add_node(node)
+
+    return cli
 
 
 if __name__ == "__main__":
-    cli = Client(input("Private key (optional): "))
-    cli.add_node(input("Node: "))
+
+    cli = create_client()
 
     while True:
         command = input("/").split(" ")
-
-        if command[0] in ["remove_node", "delete_node", "remove"]:
-            cli.remove_node(command[1])
-
-        if command[0] in ["add_node", "node", "add"]:
-            cli.add_node(command[1])
-
-        if command[0] in ["list", "nodes"]:
-            for node in cli.nodes:
-                print(node.address)
-
-        if command[0] in ["issue", "mint"]:
-            cli.issue(command[1])
-            print(cli.balance())
-
-        if command[0] == "send":
-            if len(str(command[1])) == 17:
-                cli.send(command[1], command[2])
-            else:
-                cli.send(command[2], command[1])
-
-            print(cli.balance())
-
-        if command[0] in ["address", "key", "wallet", "balance"]:
-            print(cli.key)
-            print(cli.balance())
-
-        if command[0] in ["privkey", "private", "priv", "export"]:
-            print(cli.export_priv())
+        check_command(cli, command)
