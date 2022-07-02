@@ -1,14 +1,14 @@
 import json
-from threading import Thread
 import time
-# from node import Node
-from utils.crypto import pad_key, verify
+
+from node_prototype import NodePrototype
 from components.errors import Error
 from components.storage import Storage
 from utils.https import Request
+from utils.crypto import pad_key, verify
 
 
-def check_send(req: Request, node) -> None:
+def check_send(req: Request, node: NodePrototype) -> None:
     if req.method != "send":
         return
 

@@ -1,8 +1,8 @@
-from components.storage import Storage
+from node_prototype import NodePrototype
 from utils.https import Request
 
 
-def check_balance(req: Request, node) -> None:
+def check_balance(req: Request, node: NodePrototype) -> None:
     if req.method != "balance":
         return
 

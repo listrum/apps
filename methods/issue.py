@@ -1,15 +1,13 @@
-from components.errors import Error
+
 import time
-# import node
-from utils.crypto import verify
-from utils.crypto import pad_key
+from node_prototype import NodePrototype
 from components.storage import Storage
+from components.errors import Error
 from utils.https import Request
-# from node import Storage
-# import node
+from utils.crypto import verify, pad_key
 
 
-def check_issue(req: Request, node) -> None:
+def check_issue(req: Request, node: NodePrototype) -> None:
     if req.method != "issue":
         return
 

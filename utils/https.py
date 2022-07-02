@@ -17,7 +17,6 @@ class Request:
         self.body = ""
 
         try:
-
             self.body = urllib.parse.unquote_plus(path[2])
             self.body = json.loads(self.body)
         except:
@@ -65,14 +64,11 @@ class Server:
                 continue
 
     def new_conn(self, conn: socket.socket) -> None:
-        # conn = self.context.wrap_socket(conn, server_side=True)
 
         req = Request(conn)
         try:
             req.get()
             self.on_data(req)
-            # res = self.on_data(req.method, req.body)
-            # req.end(res)
 
         except BaseException as e:
             req.end(str(e), 400)
