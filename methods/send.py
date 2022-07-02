@@ -33,7 +33,7 @@ class Send:
     def __init__(self, params: dict) -> None:
         self.data = params["to"]
         self.to = str(params["to"]["to"])
-        self.value = int(params["to"]["value"])
+        self.value = float(params["to"]["value"])
 
         self.owner = str(params["from"]["owner"])
         self.key = str(pad_key(self.owner))
@@ -54,7 +54,7 @@ class Send:
         if self.value <= 0:
             raise Error("WrongValue")
 
-        if self.from_value < self.value:
+        if self.from_value < self.value*Const.fee:
             raise Error("NotEnough")
 
     def add_value(self, storage: Storage) -> None:
@@ -62,4 +62,4 @@ class Send:
         storage.set(self.key, self.from_value - self.value)
 
         storage.set(self.to, storage.get(
-            self.to) + self.value)
+            self.to) + self.value*Const.fee)

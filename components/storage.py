@@ -18,10 +18,10 @@ class Storage:
         self.dir = dir
         self.node = ""
 
-    def get(self, owner: str) -> int:
+    def get(self, owner: str) -> float:
         try:
             with open(self.dir + owner) as f:
-                return int(f.read())
+                return float(f.read())
 
         except:
             if self.node:

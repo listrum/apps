@@ -14,9 +14,9 @@ class NodeWeb:
 
         self.address = "https://" + address
 
-    def balance(self, owner: str) -> int:
+    def balance(self, owner: str) -> float:
         res = requests.get(self.address + "/balance/" + owner)
-        return int(res.text)
+        return float(res.text)
 
     def issue(self, body: str) -> Response:
 
