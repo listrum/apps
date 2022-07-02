@@ -36,8 +36,6 @@ def check_history(req: Request, node: History) -> None:
         from_key = pad_key(req.body["from"]["owner"])
         to_key = req.body["to"]["to"]
 
-        print(to_key)
-
         try:
             with open(node.history_path + from_key) as f:
                 history_from = f.readlines()

@@ -1,3 +1,4 @@
+from components.constants import Const
 from methods.issue import check_issue
 from methods.send import check_send
 from methods.balance import check_balance
@@ -32,9 +33,9 @@ def create_node(node: Node) -> Node:
     if not key:
         key = "keys/privkey.pem"
 
-    port = input("Node port (2525): ")
+    port = input("Node port (" + Const.port_str + "): ")
     if not port:
-        port = 2525
+        port = Const.port
     port = int(port)
 
     node.start(cert, key, port)
@@ -65,7 +66,6 @@ def check_command(node: Node, command: list) -> None:
 
     if command[0] in ["owner"]:
         node.owner = command[1]
-        # node.storage.set("owner.", command[1])
 
 
 if __name__ == "__main__":

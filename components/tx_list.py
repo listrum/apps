@@ -1,5 +1,6 @@
 import json
 import time
+from components.constants import Const
 from components.errors import Error
 
 
@@ -17,5 +18,5 @@ class TxList:
 
         self.list.append(method_obj)
 
-        if abs(self.list[0].time - time.time()*1000) > 2000:
+        if abs(self.list[0].time - time.time()*1000) > Const.tx_ttl:
             self.list.pop(0)

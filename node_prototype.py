@@ -1,3 +1,4 @@
+from components.constants import Const
 from utils.https import Request, Server
 
 from components.nodeweb import NodeWeb
@@ -12,7 +13,7 @@ class NodePrototype(Server):
         self.nodes = []
         self.owner = ""
 
-    def start(self, certfile: str, keyfile: str, port: int = 2525) -> None:
+    def start(self, certfile: str, keyfile: str, port: int = Const.port) -> None:
         self.start_server(port, certfile,
                           keyfile)
 

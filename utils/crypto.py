@@ -3,12 +3,14 @@ from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 
+from components.constants import Const
+
 
 def pad_key(key: str) -> str:
     key = key.encode() + b".listrum"
     hash = SHA256.new(key).digest()
 
-    return urlsafe_b64encode(hash).decode()[:17]
+    return urlsafe_b64encode(hash).decode()[:Const.pad_length]
 
 
 def verify(key: str, data: str, sign: str) -> bool:

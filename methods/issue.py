@@ -1,5 +1,6 @@
 
 import time
+from components.constants import Const
 from node_prototype import NodePrototype
 from components.storage import Storage
 from components.errors import Error
@@ -43,7 +44,7 @@ class Issue:
                str(self.time), self.sign)
 
     def check_time(self) -> None:
-        if abs(time.time()*1000 - self.time) > 2000:
+        if abs(time.time()*1000 - self.time) > Const.tx_ttl:
             raise Error("Outdated")
 
     def check_owner(self, owner: str) -> None:

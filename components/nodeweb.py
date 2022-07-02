@@ -3,12 +3,14 @@ import requests
 from requests import Response
 from urllib import parse
 
+from components.constants import Const
+
 
 class NodeWeb:
     def __init__(self, address: str) -> None:
 
         if address.find(":") < 0:
-            address += ":2525"
+            address += ":" + Const.port_str
 
         self.address = "https://" + address
 

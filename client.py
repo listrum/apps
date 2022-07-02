@@ -6,6 +6,7 @@ from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 import time
+from components.constants import Const
 from components.nodeweb import NodeWeb
 from components.errors import Error
 from utils.crypto import pad_key
@@ -105,10 +106,10 @@ class Client:
 
 def check_command(cli: Client, command: list) -> None:
 
-    if command[0] in ["remove_node", "delete_node", "remove"]:
+    if command[0] in ["delete", "remove"]:
         cli.remove_node(command[1])
 
-    if command[0] in ["add_node", "node", "add"]:
+    if command[0] in ["node", "add"]:
         cli.add_node(command[1])
 
     if command[0] in ["list", "nodes"]:
@@ -120,7 +121,7 @@ def check_command(cli: Client, command: list) -> None:
         print(cli.balance())
 
     if command[0] == "send":
-        if len(str(command[1])) == 17:
+        if len(str(command[1])) == Const.pad_length:
             cli.send(command[1], command[2])
         else:
             cli.send(command[2], command[1])
@@ -134,7 +135,7 @@ def check_command(cli: Client, command: list) -> None:
     if command[0] in ["privkey", "private", "priv", "export"]:
         print(cli.export_priv())
 
-    if command[0] == "history":
+    if command[0] in ["history", "tx"]:
         if len(command) < 2:
             res = cli.nodes[0].history(cli.key)
         else:
