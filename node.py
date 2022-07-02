@@ -1,8 +1,9 @@
-import json
-from threading import Thread
-from utils.https import Server
-from methods.issue import Issue
-from methods.send import Send
+from utils.https import Request, Server
+
+from methods.issue import check_issue
+from methods.send import check_send
+from methods.balance import check_balance
+
 from components.nodeweb import NodeWeb
 from components.tx_list import TxList
 from components.storage import Storage
@@ -36,52 +37,19 @@ class Node(Server):
             if node.address.find(address) >= 0:
                 self.nodes.remove(node)
 
-    def on_data(self, method: str, body):
+    def on_data(self, req: Request):
 
-        if method == "balance":
-            return self.storage.get(body)
+        check_balance(req, self)
+        check_issue(req, self)
+        check_send(req, self)
 
-        if method == "issue":
+        # return self.new_method(method, body)
 
-            issue = Issue(body)
+    # def on_send(self, data: Send) -> None:
+    #     pass
 
-            issue.verify()
-
-            issue.check_time()
-            issue.check_owner(self.owner)
-
-            self.tx_list.add(issue)
-            issue.add(self.storage)
-
-            for node in self.nodes:
-                node.issue(body)
-
-            return
-
-        if method == "send":
-            send = Send(body)
-
-            send.verify()
-            send.check_time()
-            send.check_value(self.storage)
-
-            self.tx_list.add(send)
-            send.add_value(self.storage)
-
-            for node in self.nodes:
-                node.send(body)
-
-            Thread(target=self.on_send, args=(send,)).start()
-
-            return
-
-        return self.new_method(method, body)
-
-    def on_send(self, data: Send) -> None:
-        pass
-
-    def new_method(self, method: str, body):
-        pass
+    # def new_method(self, method: str, body):
+    #     pass
 
 
 def create_node(node: Node) -> Node:
@@ -134,6 +102,7 @@ def check_command(node: Node, command: list) -> None:
 
     if command[0] in ["owner"]:
         node.owner = command[1]
+        # node.storage.set("owner.", command[1])
 
 
 if __name__ == "__main__":

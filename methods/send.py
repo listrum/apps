@@ -1,8 +1,30 @@
 import json
+from threading import Thread
 import time
+# from node import Node
 from utils.crypto import pad_key, verify
 from components.errors import Error
 from components.storage import Storage
+from utils.https import Request
+
+
+def check_send(req: Request, node) -> None:
+    if req.method != "send":
+        return
+
+    send = Send(req.body)
+
+    send.verify()
+    send.check_time()
+    send.check_value(node.storage)
+
+    node.tx_list.add(send)
+    send.add_value(node.storage)
+
+    for node in node.nodes:
+        node.send(req.body)
+
+    req.end()
 
 
 class Send:

@@ -70,8 +70,9 @@ class Server:
         req = Request(conn)
         try:
             req.get()
-            res = self.on_data(req.method, req.body)
-            req.end(res)
+            self.on_data(req)
+            # res = self.on_data(req.method, req.body)
+            # req.end(res)
 
         except BaseException as e:
             req.end(str(e), 400)

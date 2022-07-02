@@ -17,7 +17,6 @@ class History(Node):
         if len(history) > 2:
             history.pop(0)
 
-        print(self.history_path)
         with open(self.history_path + data.key, "w") as f:
             f.writelines(history)
 
