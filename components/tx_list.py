@@ -6,9 +6,8 @@ from components.errors import Error
 
 class TxList:
 
-    def __init__(self, max_length) -> None:
+    def __init__(self) -> None:
         self.list = []
-        self.max_length = max_length
 
     def add(self, method_obj):
 

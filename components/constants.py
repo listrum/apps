@@ -4,3 +4,5 @@ class Const:
     tx_ttl = 2000
     pad_length = 17
     fee = 0.998
+    repay_update = 30*1000
+    repay_value = 0.01

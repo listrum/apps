@@ -18,6 +18,7 @@ def check_send(req: Request, node: NodePrototype) -> None:
     send.verify()
     send.check_time()
     send.check_value(node.storage)
+    send.repay(node)
 
     node.tx_list.add(send)
     send.add_value(node.storage)
@@ -63,3 +64,6 @@ class Send:
 
         storage.set(self.to, storage.get(
             self.to) + self.value*Const.fee)
+
+    def repay(self, node: NodePrototype) -> None:
+        self.value += node.repay.add(self.value)

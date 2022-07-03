@@ -1,3 +1,4 @@
+from components.repay import Repay
 from components.constants import Const
 from utils.https import Request, Server
 
@@ -9,9 +10,11 @@ from components.storage import Storage
 class NodePrototype(Server):
 
     def __init__(self) -> None:
-        self.tx_list = TxList(3)
+        self.tx_list = TxList()
         self.nodes = []
         self.owner = ""
+
+        self.repay = Repay()
 
     def start(self, certfile: str, keyfile: str, port: int = Const.port) -> None:
         self.start_server(port, certfile,
