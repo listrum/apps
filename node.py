@@ -15,6 +15,8 @@ class Node(NodePrototype):
         check_issue(req, self)
         check_send(req, self)
 
+        req.end("", 401)
+
 
 def create_node(node: Node) -> Node:
 

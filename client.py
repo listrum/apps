@@ -1,6 +1,5 @@
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 import json
-import math
 from random import randint
 from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
@@ -8,7 +7,6 @@ from Crypto.Hash import SHA256
 import time
 from components.constants import Const
 from components.nodeweb import NodeWeb
-from components.errors import Error
 from utils.crypto import pad_key
 from requests import Response
 
@@ -88,20 +86,22 @@ class Client:
 
         return self.nodes[rand_node].issue(data)
 
-    def balance(self) -> int:
-        balance = -1
-        res = 0
+    def balance(self) -> float:
+        balance = 0
+        total = 0
 
         for node in self.nodes:
-            res = node.balance(self.key)
+            try:
+                balance += node.balance(self.key)
+                total += 1
 
-            if res < balance or balance < 0:
-                balance = res
+            except:
+                pass
 
-        if balance < 0:
-            Error("No nodes")
+        if not total:
+            return "No nodes"
 
-        return balance
+        return balance/total
 
 
 def check_command(cli: Client, command: list) -> None:
@@ -115,6 +115,10 @@ def check_command(cli: Client, command: list) -> None:
     if command[0] in ["list", "nodes"]:
         for node in cli.nodes:
             print(node.address)
+
+    if command[0] == "clear":
+        for node in cli.nodes:
+            cli.remove_node(node.address)
 
     if command[0] in ["issue", "mint"]:
         cli.issue(command[1])

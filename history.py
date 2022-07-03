@@ -19,6 +19,8 @@ class History(NodePrototype):
         check_send(req, self)
         check_history(req, self)
 
+        req.end("", 401)
+
     def history(self, path: str) -> None:
         if path[-1:] != "/":
             path += "/"

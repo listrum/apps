@@ -9,6 +9,7 @@ import urllib.parse
 class Request:
     def __init__(self, conn: socket.socket) -> None:
         self.conn = conn
+        self.closed = False
 
     def get(self) -> None:
         path = self.conn.recv(64000).decode().split(' ')[1].split("/")
@@ -23,6 +24,11 @@ class Request:
             pass
 
     def end(self, body="", code: int = 200) -> None:
+
+        if self.closed:
+            return
+
+        self.closed = True
 
         if not isinstance(body, str):
             try:

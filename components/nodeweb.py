@@ -1,7 +1,6 @@
 import json
 import requests
 from requests import Response
-from urllib import parse
 
 from components.constants import Const
 
