@@ -56,11 +56,11 @@ class Client:
     def add_node(self, address: str) -> None:
         self.nodes.append(NodeReq(address))
 
-    def send(self, to: str, value: int) -> Response:
+    def send(self, to: str, value: float) -> Response:
 
         to = {
             "to": to,
-            "value": value
+            "value": float(value)
         }
 
         owner = self.get_owner(json.dumps(to).replace(" ", ""))
@@ -74,11 +74,11 @@ class Client:
 
         return self.nodes[rand_node].send(data)
 
-    def issue(self, value: int) -> Response:
+    def issue(self, value: float) -> Response:
         owner = self.get_owner(str(value))
 
         data = {
-            "value": value,
+            "value": float(value),
             "from": owner
         }
 

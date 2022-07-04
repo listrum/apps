@@ -66,4 +66,4 @@ class Send:
             self.to) + self.value*Const.fee)
 
     def repay(self, node: NodePrototype) -> None:
-        self.value += node.repay.add(self.value)
+        self.from_value += node.repay.add(self.value)
