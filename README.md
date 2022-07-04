@@ -3,13 +3,13 @@
 **Requirements**: python3, pip, domain with SSL certificate
 
 - Installing python package:
-`pip install listrum`
+>`pip install listrum`
 
 - Starting a node:
-`python3 -m listrum.node`
+>`python3 -m listrum.node`
 
 - (Optional) Starting a history node:
-`python3 -m listrum.history`
+>`python3 -m listrum.history`
 
 ### Glossary:
 - **Download node** - if your node doesn't know the balance, it will ask this node
