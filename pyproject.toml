@@ -1,0 +1,21 @@
+[build-system]
+requires = ["pycryptodome", "requests", "certifi", "setuptools"]
+
+[project]
+name = "Listrum"
+version = "1.1.0b"
+authors = [
+  { name="Listrum developers", email="contact@listrum.com" },
+]
+description = "Distributed currency"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/listrum/node-client"

@@ -1,4 +1,4 @@
-from node_prototype import NodePrototype
+from src.node_prototype import NodePrototype
 from utils.https import Request
 
 

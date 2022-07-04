@@ -5,3 +5,5 @@ test.py
 **/keys
 node/**
 history/**
+**/dist
+*.egg-info

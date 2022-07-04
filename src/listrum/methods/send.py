@@ -2,7 +2,7 @@ import json
 import time
 from components.constants import Const
 
-from node_prototype import NodePrototype
+from src.node_prototype import NodePrototype
 from components.errors import Error
 from components.storage import Storage
 from utils.https import Request

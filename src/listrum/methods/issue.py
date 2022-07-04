@@ -1,7 +1,7 @@
 
 import time
 from components.constants import Const
-from node_prototype import NodePrototype
+from src.node_prototype import NodePrototype
 from components.storage import Storage
 from components.errors import Error
 from utils.https import Request

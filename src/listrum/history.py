@@ -4,8 +4,8 @@ import os
 from methods.balance import check_balance
 from methods.issue import check_issue
 from methods.send import Send, check_send
-from node import create_node, check_command
-from node_prototype import NodePrototype
+from src.node import create_node, check_command
+from src.node_prototype import NodePrototype
 from utils.crypto import pad_key
 from utils.https import Request
 
