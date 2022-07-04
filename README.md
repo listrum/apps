@@ -34,10 +34,10 @@
 **Requirements**: python3, pip
 
 - Installing python package:
-`pip install listrum`
+>`pip install listrum`
 
 - (Optional) Starting console client:
-`python3 -m listrum.client`
+>`python3 -m listrum.client`
 
 ### Commands:
 - /list - list all connected nodes
