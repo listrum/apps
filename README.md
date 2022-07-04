@@ -1,4 +1,4 @@
-# [Node](http://t.me) / [Client]() / [Networking]()
+# [Node](https://github.com/listrum/node-client#running-a-node) / [Client](https://github.com/listrum/node-client#working-with-client) / [Networking](https://github.com/listrum/node-client#network-interface)
 ## Running a node
 **Requirements**: python3, pip, domain with SSL certificate
 
@@ -69,10 +69,10 @@
 
 ## Network interface
 #### Balance:
-		HTTPS GET /balance/WalletAddress
-		200 OK balance 
+	HTTPS GET /balance/WalletAddress
+	200 OK balance 
 #### Issue:
-		HTTPS GET /issue/
+	HTTPS GET /issue/
 	{
 		"from": {
 			"owner": FullWalletAddress,
@@ -82,24 +82,24 @@
 		"value": FloatValue
 	}
 		
-		200 OK
+	200 OK
 		
 #### Send:
-		HTTPS GET /send/
+	HTTPS GET /send/
 	{
-			"from": {
-				"owner": FullWalletAddress,
-				"time": Timestamp,
-				"sign": sign(to + time)
-			},
-			"to": {
-				"to": WalletAddress,
-				"value": FloatValue
-			}
+		"from": {
+			"owner": FullWalletAddress,
+			"time": Timestamp,
+			"sign": sign(to + time)
+		},
+		"to": {
+			"to": WalletAddress,
+			"value": FloatValue
+		}
 	}
 	
 	200 OK
 #### History:
-		HTTPS GET /history/WalletAddress
-		
-		200 OK [{"to": WalletAddress, "value": FloatValue}, ..]
+	HTTPS GET /history/WalletAddress
+	
+	200 OK [{"to": WalletAddress, "value": FloatValue}, ..]
