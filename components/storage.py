@@ -1,7 +1,7 @@
 import os
 from re import A
 from threading import Thread
-from components.nodeweb import NodeWeb
+from components.node_req import NodeReq
 
 
 class Storage:
@@ -31,7 +31,7 @@ class Storage:
 
     def set_node(self, address: str) -> None:
         if address:
-            self.node = NodeWeb(address)
+            self.node = NodeReq(address)
         else:
             self.node = ""
 

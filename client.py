@@ -6,7 +6,7 @@ from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 import time
 from components.constants import Const
-from components.nodeweb import NodeWeb
+from components.node_req import NodeReq
 from utils.crypto import pad_key
 from requests import Response
 
@@ -54,7 +54,7 @@ class Client:
                 self.nodes.remove(node)
 
     def add_node(self, address: str) -> None:
-        self.nodes.append(NodeWeb(address))
+        self.nodes.append(NodeReq(address))
 
     def send(self, to: str, value: int) -> Response:
 
@@ -143,7 +143,7 @@ def check_command(cli: Client, command: list) -> None:
         if len(command) < 2:
             res = cli.nodes[0].history(cli.key)
         else:
-            res = NodeWeb(command[1]).history(cli.key)
+            res = NodeReq(command[1]).history(cli.key)
 
         for tx in json.loads(res.text):
             print(tx)

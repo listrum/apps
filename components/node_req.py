@@ -5,7 +5,7 @@ from requests import Response
 from components.constants import Const
 
 
-class NodeWeb:
+class NodeReq:
     def __init__(self, address: str) -> None:
 
         if address.find(":") < 0:

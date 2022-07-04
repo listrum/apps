@@ -2,7 +2,7 @@ from components.repay import Repay
 from components.constants import Const
 from utils.https import Request, Server
 
-from components.nodeweb import NodeWeb
+from components.node_req import NodeReq
 from components.tx_list import TxList
 from components.storage import Storage
 
@@ -24,11 +24,11 @@ class NodePrototype(Server):
         self.storage = Storage(dir)
 
         if node:
-            self.nodes.append(NodeWeb(node))
+            self.nodes.append(NodeReq(node))
             self.storage.set_node(node)
 
     def add_node(self, address: str) -> None:
-        self.nodes.append(NodeWeb(address))
+        self.nodes.append(NodeReq(address))
 
     def remove_node(self, address: str) -> None:
         nodes = self.nodes
