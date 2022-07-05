@@ -9,6 +9,8 @@ from components.constants import Const
 from components.node_req import NodeReq
 from utils.crypto import bytes_to_int, int_to_bytes, pad_key
 from requests import Response
+import getpass
+import clipboard
 
 
 class Client:
@@ -166,7 +168,7 @@ def check_command(cli: Client, command: list) -> None:
 
 
 def create_client() -> Client:
-    cli = Client(input("Private key (optional): "))
+    cli = Client(getpass.getpass('Private key (optional): '))
 
     node = input("Node: ")
     if node:
