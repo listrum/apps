@@ -7,7 +7,7 @@ from Crypto.Hash import SHA256
 import time
 from components.constants import Const
 from components.node_req import NodeReq
-from utils.crypto import pad_key
+from utils.crypto import bytes_to_int, int_to_bytes, pad_key
 from requests import Response
 
 
@@ -16,18 +16,34 @@ class Client:
     def __init__(self, key: str = "") -> None:
         if not key:
             self.priv = ECC.generate(curve='P-256')
+
+            self.owner = self.priv.public_key().export_key(format="DER")
+            self.owner = urlsafe_b64encode(self.owner).decode()
+
         else:
-            self.priv = ECC.import_key(urlsafe_b64decode(key))
+            key = key.split("#")
+            priv = json.loads(key[1])
+
+            self.priv = ECC.construct(d=bytes_to_int(priv["d"]),
+                                      curve=priv["crv"],
+                                      point_x=bytes_to_int(priv["x"]),
+                                      point_y=bytes_to_int(priv["y"]))
+            self.owner = key[0]
 
         self.nodes = []
-
-        self.owner = self.priv.public_key().export_key(format="DER")
-        self.owner = urlsafe_b64encode(self.owner).decode()
-
         self.key = pad_key(self.owner)
 
     def export_priv(self) -> str:
-        return urlsafe_b64encode(self.priv.export_key(format="DER")).decode()
+        return self.owner + "#" + json.dumps({
+            "crv": self.priv.curve,
+            "d": int_to_bytes(self.priv.d).replace("=", ""),
+            "x": int_to_bytes(self.priv.pointQ.x).replace("=", ""),
+            "y": int_to_bytes(self.priv.pointQ.y).replace("=", ""),
+            "ext": True,
+            "key_ops": ["sign"],
+            "kty": "EC",
+        })
+        # return urlsafe_b64encode(self.priv.export_key(format="DER", use_pkcs8=False)).decode()
 
     def get_owner(self, data: str) -> dict:
 

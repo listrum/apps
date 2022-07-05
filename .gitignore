@@ -1,9 +1,9 @@
 test.py
-**/__pycache__
 .vscode/**
 **/test
 **/keys
-node/**
-history/**
 **/dist
 *.egg-info
+**/node
+**/__pycache__
+**/history

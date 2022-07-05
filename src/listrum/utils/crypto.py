@@ -6,6 +6,14 @@ from Crypto.Hash import SHA256
 from components.constants import Const
 
 
+def int_to_bytes(number: int) -> str:
+    return urlsafe_b64encode(bytearray.fromhex('{:064x}'.format(int(number)))).decode()
+
+
+def bytes_to_int(number: str) -> int:
+    return int(urlsafe_b64decode(number + "=").hex(), 16)
+
+
 def pad_key(key: str) -> str:
     key = key.encode() + b".listrum"
     hash = SHA256.new(key).digest()
