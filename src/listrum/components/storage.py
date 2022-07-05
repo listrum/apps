@@ -27,7 +27,7 @@ class Storage:
             if self.node:
                 Thread(target=self.from_node, args=(owner,)).start()
 
-            return 0
+            return 0.0
 
     def set_node(self, address: str) -> None:
         if address:
@@ -41,7 +41,8 @@ class Storage:
         try:
             open(self.dir + owner)
         except:
-            self.set(owner, balance)
+            if balance > 0.0:
+                self.set(owner, balance)
 
     def set(self, owner: str, value: int) -> None:
 

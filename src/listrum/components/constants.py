@@ -6,3 +6,4 @@ class Const:
     fee = 0.998
     repay_update = 30*1000
     repay_value = 0.01
+    history_len = 5

@@ -1,5 +1,6 @@
 import json
 import os
+from listrum.components.constants import Const
 
 from methods.balance import check_balance
 from methods.issue import check_issue
@@ -53,9 +54,9 @@ def check_history(req: Request, node: History) -> None:
         history_from.append(json.dumps(req.body["to"]) + "\n")
         history_to.append(json.dumps(req.body["to"]) + "\n")
 
-        if len(history_from) > 2:
+        if len(history_from) > Const.history_len:
             history_from.pop(0)
-        if len(history_to) > 2:
+        if len(history_to) > Const.history_len:
             history_to.pop(0)
 
         with open(node.history_path + from_key, "w") as f:
