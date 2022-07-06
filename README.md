@@ -80,7 +80,7 @@
 		}
 	}
 	
-	200 AddedValue
+	200 OK
 
 #### History:
 	HTTPS GET /history/WalletAddress

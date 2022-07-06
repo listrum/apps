@@ -1,6 +1,6 @@
 import time
 from components.constants import Const
-from components.errors import Error
+from components.error import Error
 
 
 class TxList:

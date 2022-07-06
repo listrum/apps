@@ -6,7 +6,7 @@ from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 import time
 from components.constants import Const
-from listrum.components.nodes import NodeReq, Nodes, nodes_command
+from components.nodes import NodeReq, Nodes, nodes_command
 from utils.crypto import bytes_to_int, int_to_bytes, pad_key
 from requests import Response
 import getpass
@@ -65,21 +65,19 @@ class Client:
 
     def send(self, to: str, value: float) -> Response:
 
-        to = {
-            "to": to,
-            "value": float(value)
-        }
-
-        owner = self.get_owner(json.dumps(to).replace(" ", ""))
-
         data = {
             "to": to,
+            "value": float(value)/Const.fee
+        }
+
+        owner = self.get_owner(json.dumps(data).replace(" ", ""))
+
+        data = {
+            "data": data,
             "from": owner
         }
 
-        rand_node = randint(0, len(self.nodes)-1)
-
-        return self.nodes[rand_node].send(data)
+        self.nodes.send(data)
 
 
 def check_command(cli: Client, command: list) -> None:
@@ -90,11 +88,11 @@ def check_command(cli: Client, command: list) -> None:
         else:
             cli.send(command[2], command[1])
 
-        print(cli.nodes.balance())
+        print(cli.nodes.balance(cli.key))
 
     if command[0] in ["address", "key", "wallet", "balance"]:
         print(cli.key)
-        print(cli.nodes.balance())
+        print(cli.nodes.balance(cli.key))
 
     if command[0] in ["privkey", "private", "priv", "export"]:
         print(cli.export_priv())

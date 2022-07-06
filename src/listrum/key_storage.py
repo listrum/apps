@@ -1,5 +1,5 @@
 from utils.https import Request, Server
-from listrum.components.nodes import Nodes, nodes_command
+from components.nodes import Nodes, nodes_command
 
 
 class KeyStorage(Server):

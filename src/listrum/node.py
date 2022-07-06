@@ -1,5 +1,5 @@
 from components.constants import Const
-from listrum.components.nodes import nodes_command
+from components.nodes import nodes_command
 from methods import check_send, check_balance
 from node_prototype import NodePrototype
 from utils.https import Request
@@ -17,12 +17,11 @@ class Node(NodePrototype):
 
 def create_node(node: Node) -> Node:
 
-    backup = input("Download node address (optional): ")
     path = input("Storage path (node/): ")
     if not path:
         path = "node"
 
-    node.set_storage(backup, path)
+    node.set_storage(path)
 
     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
     if not cert:
@@ -43,26 +42,17 @@ def create_node(node: Node) -> Node:
     print("Command line:")
 
 
-def check_command(node: Node, command: list) -> None:
-
-    if command[0] in ["download", "main"]:
-        try:
-            node.storage.set_node(command[1])
-        except:
-            node.storage.set_node("")
-
-    if command[0] in ["issue"]:
-        try:
-            node.issue(command[1], float(command[2]))
-        except:
-            node.issue(command[2], float(command[1]))
-
-
 if __name__ == "__main__":
     node = Node()
     create_node(node)
 
     while True:
         command = input("/").split(" ")
-        check_command(node, command)
+
+        if command[0] in ["issue", "mint"]:
+            try:
+                node.issue(command[1], float(command[2]))
+            except:
+                node.issue(command[2], float(command[1]))
+
         nodes_command(command, node.nodes)

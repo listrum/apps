@@ -2,7 +2,7 @@ import json
 import time
 from node_prototype import NodePrototype
 from components.constants import Const
-from components.errors import Error
+from components.error import Error
 from components.storage import Storage
 from utils.https import Request
 from utils.crypto import pad_key, verify
@@ -31,15 +31,17 @@ def check_send(req: Request, node: NodePrototype) -> None:
 
     node.nodes.send(req.body)
 
-    req.end(send.value*Const.fee)
+    # req.end(send.value*Const.fee)
+    req.end()
 
 
 class Send:
 
     def __init__(self, params: dict) -> None:
-        self.data = params["to"]
-        self.to = str(params["to"]["to"])
-        self.value = float(params["to"]["value"])
+
+        self.data = params["data"]
+        self.to = str(params["data"]["to"])
+        self.value = float(params["data"]["value"])
 
         self.owner = str(params["from"]["owner"])
         self.key = str(pad_key(self.owner))

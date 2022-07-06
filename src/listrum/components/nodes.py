@@ -18,7 +18,7 @@ class NodeReq:
         return float(res.text)
 
     def send(self, body: str) -> Response:
-        return requests.get(self.address + "/send/" + json.dumps(body))
+        return requests.get(self.address + "/send/" + body)
 
     def history(self, owner: str) -> Response:
         return requests.get(self.address + "/history/" + owner)
@@ -41,7 +41,12 @@ class Nodes:
     def clear(self) -> None:
         self.list = []
 
-    def send(self, data: str) -> None:
+    def send(self, data) -> None:
+        try:
+            data = json.dumps(data)
+        except:
+            pass
+
         for node in self.list:
             node.send(data)
 

@@ -1,11 +1,10 @@
 import os
 from threading import Thread
-from listrum.components.nodes import NodeReq
 
 
 class Storage:
 
-    def __init__(self, dir: str) -> None:
+    def __init__(self, dir: str, node) -> None:
         if dir[-1:] != "/":
             dir += "/"
 
@@ -15,7 +14,7 @@ class Storage:
             pass
 
         self.dir = dir
-        self.node = ""
+        self.node = node
 
     def get(self, owner: str) -> float:
         try:
@@ -23,19 +22,12 @@ class Storage:
                 return float(f.read())
 
         except:
-            if self.node:
-                Thread(target=self.from_node, args=(owner,)).start()
+            Thread(target=self.from_node, args=(owner,)).start()
 
             return 0.0
 
-    def set_node(self, address: str) -> None:
-        if address:
-            self.node = NodeReq(address)
-        else:
-            self.node = ""
-
-    def from_node(self, owner: str) -> str:
-        balance = self.node.balance(owner)
+    def from_node(self, owner: str) -> None:
+        balance = self.node.nodes.balance(owner)
 
         try:
             open(self.dir + owner)
