@@ -1,4 +1,3 @@
-import json
 import time
 from components.constants import Const
 from components.errors import Error

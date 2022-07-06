@@ -13,7 +13,7 @@
 
 ### Glossary:
 - **Download node** - if your node doesn't know the balance, it will ask this node
-- **Node list** - where transactions will be broadcasted
+- **Node list** - interact with other nodes
 - **Repay** - amount of value payed back to sender
 - **Fee** - difference between sended and received value
 - **History node** - node that saves txs and sends it with /history/
@@ -29,6 +29,7 @@
 - /remove Node - remove node from node list
 - /download Node - set download node
 - /issue Value Address - add value to address
+- /clear - remove all nodes
 
 ## Working with client
 **Requirements**: python3, pip
@@ -44,7 +45,6 @@
 - /add Node - add node to node list
 - /remove Node - remove node from node list
 - /clear - remove all nodes
-- /issue Value - send mint request
 - /balance - show balance and wallet address
 - /priv - export private key
 - /history (SourceNode) - show history of your wallet
@@ -52,21 +52,14 @@
 ### API:
 	 Client(priv_key: str= "")
 	 self.key - wallet address
-	 self.nodes - list<NodeReq>
-	 add_node(address: str)
-	 issue(address: str, value: float)
-	 remove_node(address: str)
-	 add_node(address: str)
-	 send(to: str, value: float)
-	 issue(value: float)
-	 balance() -> float
+	 self.nodes - integrate with nodes: send(), balance()
 	 export_priv() -> str
 
 ### Glossary:
 - **self.owner** - full public key
 - **self.key** - compressed wallet key
-- **balance()** - get balance from all nodes and calcualte average
-- **NodeReq** - interactive node class
+- **export_priv()** - export for browser and client
+- **Nodes** - interactive nodes list class with all methods
 
 ## Network interface
 #### Balance:
@@ -81,7 +74,7 @@
 			"time": Timestamp,
 			"sign": sign(to + time)
 		},
-		"to": {
+		"data": {
 			"to": WalletAddress,
 			"value": FloatValue
 		}

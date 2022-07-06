@@ -1,7 +1,6 @@
 import os
-from re import A
 from threading import Thread
-from components.node_req import NodeReq
+from listrum.components.nodes import NodeReq
 
 
 class Storage:
@@ -44,7 +43,11 @@ class Storage:
             if balance > 0.0:
                 self.set(owner, balance)
 
-    def set(self, owner: str, value: int) -> None:
+    def set(self, owner: str, value: float) -> None:
+
+        if not value:
+            os.remove(self.dir + owner)
+            return
 
         with open(self.dir + owner, "w") as f:
             f.write(str(value))

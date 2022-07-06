@@ -1,8 +1,9 @@
 import json
 import os
 from listrum.components.constants import Const
+from listrum.components.nodes import nodes_command
 
-from methods import check_balance,Send, check_send
+from methods import check_balance, check_send
 from node import create_node, check_command
 from node_prototype import NodePrototype
 from utils.crypto import pad_key
@@ -84,6 +85,7 @@ if __name__ == "__main__":
     while True:
         command = input("/").split(" ")
         check_command(node, command)
+        nodes_command(command, node.nodes)
 
         if command[0] == "history":
             node.history(command[1])

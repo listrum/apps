@@ -79,9 +79,9 @@ class Server:
         except BaseException as e:
             req.end(str(e), 400)
 
-    def on_data(self, method: str, body: str):
+    def on_data(self, req: Request):
 
-        return [method, body]
+        return [req.method, req.body]
 
 
 def test(address: str = "listrum.com", port: int = 2525, certfile: str = "listrum/keys/fullchain1.pem", keyfile: str = "listrum/keys/privkey1.pem"):

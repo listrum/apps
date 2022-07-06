@@ -1,4 +1,5 @@
 from components.constants import Const
+from listrum.components.nodes import nodes_command
 from methods import check_send, check_balance
 from node_prototype import NodePrototype
 from utils.https import Request
@@ -41,8 +42,6 @@ def create_node(node: Node) -> Node:
     print("Node started!")
     print("Command line:")
 
-    return node
-
 
 def check_command(node: Node, command: list) -> None:
 
@@ -51,16 +50,6 @@ def check_command(node: Node, command: list) -> None:
             node.storage.set_node(command[1])
         except:
             node.storage.set_node("")
-
-    if command[0] in ["remove"]:
-        node.remove_node(command[1])
-
-    if command[0] in ["add", "node"]:
-        node.add_node(command[1])
-
-    if command[0] in ["list", "nodes"]:
-        for web_node in node.nodes:
-            print(web_node.address)
 
     if command[0] in ["issue"]:
         try:
@@ -76,3 +65,4 @@ if __name__ == "__main__":
     while True:
         command = input("/").split(" ")
         check_command(node, command)
+        nodes_command(command, node.nodes)

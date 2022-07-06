@@ -29,8 +29,7 @@ def check_send(req: Request, node: NodePrototype) -> None:
     node.tx_list.add(send)
     send.add_value(node.storage)
 
-    for node in node.nodes:
-        node.send(req.body)
+    node.nodes.send(req.body)
 
     req.end(send.value*Const.fee)
 
