@@ -12,7 +12,6 @@ class NodePrototype(Server):
     def __init__(self) -> None:
         self.tx_list = TxList()
         self.nodes = []
-        self.owner = ""
 
         self.repay = Repay()
 
@@ -36,6 +35,9 @@ class NodePrototype(Server):
         for node in nodes:
             if node.address.find(address) >= 0:
                 self.nodes.remove(node)
+
+    def issue(self, address: str, value: float) -> None:
+        self.storage.set(address, self.storage.get(address) + value)
 
     def on_data(self, req: Request):
         pass

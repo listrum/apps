@@ -1,12 +1,18 @@
 import json
 import time
-from components.constants import Const
-
 from node_prototype import NodePrototype
+from components.constants import Const
 from components.errors import Error
 from components.storage import Storage
 from utils.https import Request
 from utils.crypto import pad_key, verify
+
+
+def check_balance(req: Request, node: NodePrototype) -> None:
+    if req.method != "balance":
+        return
+
+    req.end(node.storage.get(req.body))
 
 
 def check_send(req: Request, node: NodePrototype) -> None:
@@ -26,7 +32,7 @@ def check_send(req: Request, node: NodePrototype) -> None:
     for node in node.nodes:
         node.send(req.body)
 
-    req.end()
+    req.end(send.value*Const.fee)
 
 
 class Send:
@@ -55,7 +61,7 @@ class Send:
         if self.value <= 0:
             raise Error("WrongValue")
 
-        if self.from_value < self.value*Const.fee:
+        if self.from_value < self.value:
             raise Error("NotEnough")
 
     def add_value(self, storage: Storage) -> None:

@@ -28,7 +28,7 @@
 - /add Node - add node to node list
 - /remove Node - remove node from node list
 - /download Node - set download node
-- /owner Address - set owner address (for issue)
+- /issue Value Address - add value to address
 
 ## Working with client
 **Requirements**: python3, pip
@@ -54,12 +54,13 @@
 	 self.key - wallet address
 	 self.nodes - list<NodeReq>
 	 add_node(address: str)
-	 export_priv() -> str
+	 issue(address: str, value: float)
 	 remove_node(address: str)
 	 add_node(address: str)
 	 send(to: str, value: float)
 	 issue(value: float)
 	 balance() -> float
+	 export_priv() -> str
 
 ### Glossary:
 - **self.owner** - full public key
@@ -71,19 +72,7 @@
 #### Balance:
 	HTTPS GET /balance/WalletAddress
 	200 OK balance 
-#### Issue:
-	HTTPS GET /issue/
-	{
-		"from": {
-			"owner": FullWalletAddress,
-			"time": Timestamp,
-			"sign": sign(value + time)
-		},
-		"value": FloatValue
-	}
-		
-	200 OK
-		
+
 #### Send:
 	HTTPS GET /send/
 	{
@@ -98,7 +87,8 @@
 		}
 	}
 	
-	200 OK
+	200 AddedValue
+
 #### History:
 	HTTPS GET /history/WalletAddress
 	

@@ -2,9 +2,7 @@ import json
 import os
 from listrum.components.constants import Const
 
-from methods.balance import check_balance
-from methods.issue import check_issue
-from methods.send import Send, check_send
+from methods import check_balance,Send, check_send
 from node import create_node, check_command
 from node_prototype import NodePrototype
 from utils.crypto import pad_key
@@ -16,7 +14,6 @@ class History(NodePrototype):
     def on_data(self, req: Request) -> None:
 
         check_balance(req, self)
-        check_issue(req, self)
         check_send(req, self)
         check_history(req, self)
 

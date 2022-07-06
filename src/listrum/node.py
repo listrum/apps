@@ -1,8 +1,5 @@
 from components.constants import Const
-from methods.issue import check_issue
-from methods.send import check_send
-from methods.balance import check_balance
-
+from methods import check_send, check_balance
 from node_prototype import NodePrototype
 from utils.https import Request
 
@@ -12,7 +9,6 @@ class Node(NodePrototype):
     def on_data(self, req: Request):
 
         check_balance(req, self)
-        check_issue(req, self)
         check_send(req, self)
 
         req.end("", 401)
@@ -66,8 +62,11 @@ def check_command(node: Node, command: list) -> None:
         for web_node in node.nodes:
             print(web_node.address)
 
-    if command[0] in ["owner"]:
-        node.owner = command[1]
+    if command[0] in ["issue"]:
+        try:
+            node.issue(command[1], float(command[2]))
+        except:
+            node.issue(command[2], float(command[1]))
 
 
 if __name__ == "__main__":
