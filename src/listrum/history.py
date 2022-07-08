@@ -88,6 +88,12 @@ if __name__ == "__main__":
         try:
             nodes_command(command, node.nodes)
 
+            if command[0] in ["issue", "mint"]:
+                try:
+                    node.issue(command[1], float(command[2]))
+                except:
+                    node.issue(command[2], float(command[1]))
+
             if command[0] == "history":
                 node.history(command[1])
         except:

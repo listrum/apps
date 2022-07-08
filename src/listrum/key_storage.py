@@ -32,16 +32,14 @@ class KeyStorage(Server):
 
         if req.method == "store":
             self.check_value(req.body["from"])
-            print(1)
             self.add_key(req.body["data"]["name"], req.body["data"]["key"])
-            print(2)
             req.end()
 
         if req.method == "get":
             req.end(self.get(req.body))
 
     def get(self, name: str) -> str:
-        with open(self.path + name) as f:
+        with open(self.path + str(name)) as f:
             return f.read()
 
     def add_key(self, name: str, key: list) -> None:
@@ -55,7 +53,7 @@ class KeyStorage(Server):
         value.send_all(temp_wallet.wallet)
 
         if temp_wallet.balance() < self.price*Const.fee:
-            Error("Bad price")
+            raise Error("Bad price")
 
         temp_wallet.send_all(self.wallet)
 

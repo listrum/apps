@@ -22,7 +22,7 @@ def check_send(req: Request, node: NodePrototype) -> None:
 
     send = Send(req.body)
 
-    print(send.to, send.wallet, send.value)
+    # print(send.to, send.wallet, send.value)
 
     send.verify()
     send.check_time()
@@ -36,10 +36,9 @@ def check_send(req: Request, node: NodePrototype) -> None:
 
     # print(send.to, send.value)
 
-    # req.end(send.value*Const.fee)
     req.end()
 
-    print(1)
+    # print(1)
 
 
 class Send:
