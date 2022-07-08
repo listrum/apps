@@ -83,8 +83,11 @@ if __name__ == "__main__":
     create_node(node)
 
     while True:
-        command = input("/").split(" ")
-        nodes_command(command, node.nodes)
+        try:
+            command = input("/").split(" ")
+            nodes_command(command, node.nodes)
 
-        if command[0] == "history":
-            node.history(command[1])
+            if command[0] == "history":
+                node.history(command[1])
+        except:
+            pass

@@ -82,9 +82,12 @@ if __name__ == "__main__":
     app.start(cert, key, port)
 
     while True:
-        command = input("/").split(" ")
+        try:
+            command = input("/").split(" ")
 
-        nodes_command(command, app.nodes)
+            nodes_command(command, app.nodes)
 
-        if command[0] == "wallet":
-            app.wallet = command[1]
+            if command[0] == "wallet":
+                app.wallet = command[1]
+        except:
+            pass

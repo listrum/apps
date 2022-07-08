@@ -88,3 +88,6 @@ def nodes_command(command: list, nodes: Nodes) -> None:
 
     if command[0] == "clear":
         nodes.list = []
+
+    if command[0] in ["exit", "quit", "q", "close"]:
+        exit()
