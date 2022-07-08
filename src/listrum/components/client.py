@@ -23,7 +23,7 @@ class Client:
                                       point_x=bytes_to_int(key["x"]),
                                       point_y=bytes_to_int(key["y"]))
 
-        self.key, self.owner = import_pub(self.priv)
+        self.owner, self.key = import_pub(self.priv)
 
     def get_owner(self, data: str) -> dict:
 
@@ -59,7 +59,7 @@ class Client:
         self.nodes.send(data)
 
     def balance(self) -> float:
-        return self.nodes.balance(self.owner)
+        return self.nodes.balance(self.key)
 
     def set_nodes(self, nodes) -> None:
         self.nodes = nodes

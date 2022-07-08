@@ -21,6 +21,8 @@ def check_send(req: Request, node: NodePrototype) -> None:
 
     send = Send(req.body)
 
+    print(send.to, send.key, send.value)
+
     send.verify()
     send.check_time()
     send.check_value(node.storage)
@@ -30,6 +32,8 @@ def check_send(req: Request, node: NodePrototype) -> None:
     send.add_value(node.storage)
 
     node.nodes.send(req.body)
+
+    # print(send.to, send.value)
 
     # req.end(send.value*Const.fee)
     req.end()
@@ -63,6 +67,7 @@ class Send:
             raise Error("WrongValue")
 
         if self.from_value < self.value:
+            print(1)
             raise Error("NotEnough")
 
     def add_value(self, storage: Storage) -> None:

@@ -1,4 +1,5 @@
 from asyncio import start_server
+import json
 from components.constants import Const
 from utils.https import Request, Server
 from components.nodes import Nodes, nodes_command
@@ -41,9 +42,9 @@ class KeyStorage(Server):
         with open(self.path + username) as f:
             return f.read()
 
-    def add_key(self, username: str, key: str) -> None:
+    def add_key(self, username: str, key: list) -> None:
         with open(self.path + username, "x") as f:
-            f.write(key)
+            f.write(json.dumps(key))
 
     def check_value(self, from_priv: dict) -> None:
         value = self.nodes.client(from_priv)
@@ -52,10 +53,14 @@ class KeyStorage(Server):
         if value.balance() < self.price:
             Error("Bad price")
 
-        value.send(temp_wallet.owner, self.price)
+        self.price *= Const.fee
+
+        value.send(temp_wallet.key, self.price)
 
         if temp_wallet.balance() < self.price:
             Error("Unable to trasfer")
+
+        self.price *= Const.fee
 
         temp_wallet.send(self.wallet, self.price)
 
@@ -87,3 +92,6 @@ if __name__ == "__main__":
         command = input("/").split(" ")
 
         nodes_command(command, app.nodes)
+
+        if command[0] == "wallet":
+            app.wallet = command[1]

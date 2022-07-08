@@ -10,7 +10,7 @@ class NodeReq:
     def __init__(self, address: str) -> None:
 
         if address.find(":") < 0:
-            address += ":" + Const.port_str
+            address += ":" + str(Const.port)
 
         self.address = "https://" + address
 
