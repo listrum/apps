@@ -3,6 +3,7 @@ import requests
 from requests import Response
 
 from components.constants import Const
+from components.client import Client
 
 
 class NodeReq:
@@ -66,6 +67,12 @@ class Nodes:
             return 0
 
         return balance/total
+
+    def client(self, key: dict = {}) -> Client:
+        cli = Client(key)
+        cli.set_nodes(self)
+
+        return cli
 
 
 def nodes_command(command: list, nodes: Nodes) -> None:

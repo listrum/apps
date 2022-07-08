@@ -12,8 +12,7 @@
 >`python3 -m listrum.history`
 
 ### Glossary:
-- **Download node** - if your node doesn't know the balance, it will ask this node
-- **Node list** - interact with other nodes
+- **Node list** - node list to send and get data from
 - **Repay** - amount of value payed back to sender
 - **Fee** - difference between sended and received value
 - **History node** - node that saves txs and sends it with /history/
@@ -52,14 +51,14 @@
 ### API:
 	 Client(priv_key: str= "")
 	 self.key - wallet address
-	 self.nodes - integrate with nodes: send(), balance()
+	 self.nodes - integrate with nodes: send(), balance(), add_node(), remove_node()
 	 export_priv() -> str
 
 ### Glossary:
 - **self.owner** - full public key
 - **self.key** - compressed wallet key
-- **export_priv()** - export for browser and client
-- **Nodes** - interactive nodes list class with all methods
+- **export_priv()** - export prive key for browser and client
+- **Nodes** - nodes list with basic functionality methods
 
 ## Network interface
 #### Balance:

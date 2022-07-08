@@ -21,12 +21,17 @@ def pad_key(key: str) -> str:
     return urlsafe_b64encode(hash).decode()[:Const.pad_length]
 
 
+def import_pub(key: ECC.EccKey):
+    key = urlsafe_b64encode(
+        key.public_key().export_key(format="DER")).decode()
+
+    owner = pad_key(key)
+    return key, owner
+
+
 def verify(key: str, data: str, sign: str) -> bool:
     # print(key, data, sign)
-    key = urlsafe_b64decode(key)
-
-    key = ECC.import_key(key)
-
+    key = ECC.import_key(urlsafe_b64decode(key))
     sign = urlsafe_b64decode(sign)
 
     DSS.new(
