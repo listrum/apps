@@ -8,10 +8,10 @@
 - Starting a node:
 >`python3 -m listrum.node`
 
-- (Optional) Starting a history node:
+- Starting a history node:
 >`python3 -m listrum.history`
 
-- (Optional) Starting a key storage:
+- Starting a key storage:
 >`python3 -m listrum.key_storage`
 
 ### Glossary:
