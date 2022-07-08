@@ -4,7 +4,7 @@ test.py
 **/keys
 **/dist
 *.egg-info
-**/node
 **/__pycache__
 **/history
 **/key_storage
+**/node_storage

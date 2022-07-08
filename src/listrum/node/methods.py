@@ -1,9 +1,9 @@
 import json
 import time
-from node_prototype import NodePrototype
+from node.node_prototype import NodePrototype
 from components.constants import Const
 from components.error import Error
-from components.storage import Storage
+from listrum.node.storage import Storage
 from utils.https import Request
 from utils.crypto import pad_key, verify
 

@@ -1,7 +1,7 @@
 from components.constants import Const
 from components.nodes import nodes_command
-from methods import check_send, check_balance
-from node_prototype import NodePrototype
+from node.methods import check_send, check_balance
+from node.node_prototype import NodePrototype
 from utils.https import Request
 
 
@@ -19,7 +19,7 @@ def create_node(node: Node) -> Node:
 
     path = input("Storage path (node/): ")
     if not path:
-        path = "node"
+        path = "node_storage"
 
     node.set_storage(path)
 

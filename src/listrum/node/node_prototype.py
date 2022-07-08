@@ -1,10 +1,10 @@
-from components.repay import Repay
+from listrum.node.repay import Repay
 from components.constants import Const
 from utils.https import Request, Server
 
 from components.nodes import Nodes
-from components.tx_list import TxList
-from components.storage import Storage
+from listrum.node.tx_list import TxList
+from listrum.node.storage import Storage
 
 
 class NodePrototype(Server):
