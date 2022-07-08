@@ -7,3 +7,4 @@ test.py
 **/node
 **/__pycache__
 **/history
+**/key_storage
