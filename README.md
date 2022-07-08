@@ -1,5 +1,5 @@
-# [Node](https://github.com/listrum/node-client#running-a-node) / [Client](https://github.com/listrum/node-client#working-with-client) / [Networking](https://github.com/listrum/node-client#network-interface)
-## Running a node
+# [Run](https://github.com/listrum/node-client#running-a-node) / [Networking](https://github.com/listrum/node-client#node-interface) / [API](https://github.com/listrum/node-client#nodes-api)
+## Running listrum
 **Requirements**: python3, pip, domain with an SSL certificate
 
 - Installing python package:
