@@ -4,7 +4,7 @@ from components.constants import Const
 from components.nodes import nodes_command
 
 from node.methods import check_balance, check_send
-from node import create_node, check_command
+from node import create_node
 from node.node_prototype import NodePrototype
 from utils.crypto import pad_key
 from utils.https import Request
@@ -34,33 +34,33 @@ class History(NodePrototype):
 
 def check_history(req: Request, node: History) -> None:
     if req.method == "send":
-        from_key = pad_key(req.body["from"]["owner"])
-        to_key = req.body["to"]["to"]
+        from_wallet = pad_key(req.body["from"]["wallet"])
+        to_wallet = req.body["data"]["to"]
 
         try:
-            with open(node.history_path + from_key) as f:
+            with open(node.history_path + from_wallet) as f:
                 history_from = f.readlines()
         except:
             history_from = []
 
         try:
-            with open(node.history_path + to_key) as f:
+            with open(node.history_path + to_wallet) as f:
                 history_to = f.readlines()
         except:
             history_to = []
 
-        history_from.append(json.dumps(req.body["to"]) + "\n")
-        history_to.append(json.dumps(req.body["to"]) + "\n")
+        history_from.append(json.dumps(req.body["data"]) + "\n")
+        history_to.append(json.dumps(req.body["data"]) + "\n")
 
         if len(history_from) > Const.history_len:
             history_from.pop(0)
         if len(history_to) > Const.history_len:
             history_to.pop(0)
 
-        with open(node.history_path + from_key, "w") as f:
+        with open(node.history_path + from_wallet, "w") as f:
             f.writelines(history_from)
 
-        with open(node.history_path + to_key, "w") as f:
+        with open(node.history_path + to_wallet, "w") as f:
             f.writelines(history_to)
 
     if req.method == "history":
@@ -84,7 +84,6 @@ if __name__ == "__main__":
 
     while True:
         command = input("/").split(" ")
-        check_command(node, command)
         nodes_command(command, node.nodes)
 
         if command[0] == "history":

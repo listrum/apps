@@ -32,22 +32,22 @@ class KeyStorage(Server):
 
         if req.method == "store":
             self.check_value(req.body["from"])
-            self.add_key(req.body["data"]["username"], req.body["data"]["key"])
+            self.add_key(req.body["data"]["name"], req.body["data"]["key"])
             req.end()
 
-        if req.method == "get_key":
+        if req.method == "get":
             req.end(self.get(req.body))
 
-    def get(self, username: str) -> str:
-        with open(self.path + username) as f:
+    def get(self, name: str) -> str:
+        with open(self.path + name) as f:
             return f.read()
 
-    def add_key(self, username: str, key: list) -> None:
-        with open(self.path + username, "x") as f:
+    def add_key(self, name: str, key: list) -> None:
+        with open(self.path + name, "x") as f:
             f.write(json.dumps(key))
 
-    def check_value(self, from_priv: dict) -> None:
-        value = self.nodes.client(from_priv)
+    def check_value(self, priv: dict) -> None:
+        value = self.nodes.client(priv)
         temp_wallet = self.nodes.client()
 
         value.send_all(temp_wallet.key)

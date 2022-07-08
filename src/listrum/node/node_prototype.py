@@ -22,8 +22,8 @@ class NodePrototype(Server):
     def set_storage(self, dir: str = "node") -> None:
         self.storage = Storage(dir, self)
 
-    def issue(self, address: str, value: float) -> None:
-        self.storage.set(address, self.storage.get(address) + value)
+    def issue(self, wallet: str, value: float) -> None:
+        self.storage.set(wallet, self.storage.get(wallet) + value)
 
     def on_data(self, req: Request):
         pass

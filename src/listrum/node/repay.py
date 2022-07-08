@@ -23,7 +23,7 @@ class Repay:
 
         if self.total > 0:
             res = self.total*Const.repay_value
-            self.total *= 1-Const.repay_value
+            self.total -= res
         else:
             res = 0
 

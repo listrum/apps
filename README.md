@@ -26,50 +26,20 @@
 - /list - list all connected nodes
 - /add Node - add node to node list
 - /remove Node - remove node from node list
-- /download Node - set download node
 - /issue Value Address - add value to address
 - /clear - remove all nodes
 
-## Working with client
-**Requirements**: python3, pip
+### Node interface:
 
-- Installing python package:
->`pip install listrum`
-
-- (Optional) Starting console client:
->`python3 -m listrum.client`
-
-### Commands:
-- /list - list all connected nodes
-- /add Node - add node to node list
-- /remove Node - remove node from node list
-- /clear - remove all nodes
-- /balance - show balance and wallet address
-- /priv - export private key
-- /history (SourceNode) - show history of your wallet
-
-### API:
-	 Client(priv_key: str= "")
-	 self.key - wallet address
-	 self.nodes - integrate with nodes: send(), balance(), add_node(), remove_node()
-	 export_priv() -> str
-
-### Glossary:
-- **self.owner** - full public key
-- **self.key** - compressed wallet key
-- **export_priv()** - export prive key for browser and client
-- **Nodes** - nodes list with basic functionality methods
-
-## Network interface
 #### Balance:
-	HTTPS GET /balance/WalletAddress
+	HTTPS GET :2525/balance/WalletAddress
 	200 OK balance 
 
 #### Send:
-	HTTPS GET /send/
+	HTTPS GET :2525/send/
 	{
 		"from": {
-			"owner": FullWalletAddress,
+			"pub": FullWalletAddress,
 			"time": Timestamp,
 			"sign": sign(to + time)
 		},
@@ -81,7 +51,40 @@
 	
 	200 OK
 
-#### History:
-	HTTPS GET /history/WalletAddress
+### History node interface:
+	HTTPS GET :2525/history/WalletAddress
 	
 	200 OK [{"to": WalletAddress, "value": FloatValue}, ..]
+
+### Key storage interface:
+#### Store your key:
+	HTTPS GET :2522/store/
+	{
+		"from": PrivateKey,
+		"data" {
+			"price": PaidPrice,
+			"key": [Key, WrappedPrivateKey],
+			"name": KeyName
+		}
+	}
+
+	200 OK
+
+#### Get key:
+	HTTPS GET :2522/get/KeyName
+
+	200 OK [Key, WrappedPrivateKey]
+
+
+## Nodes API
+	add_node(address: str)
+	remove_node(address: str)
+	clear()
+	send(data)
+	balance(padded_key)
+	client(key: dict = {}) -> Client - client constructor with self nodes and JWK
+
+## Client API
+	Client(key: dict = {}) - use plain JWK from browser
+	send_add(to: str) - sends all funds to address
+	balance() -> float - balance of the key, with nodes provided

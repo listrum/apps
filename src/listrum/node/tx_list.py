@@ -6,15 +6,15 @@ from components.error import Error
 class TxList:
 
     def __init__(self) -> None:
-        self.list = []
+        self.tx_list = []
 
-    def add(self, method_obj):
+    def add(self, new_tx) -> None:
 
-        for method in self.list:
-            if method.sign == method_obj.sign:
+        for tx in self.tx_list:
+            if tx.sign == new_tx.sign:
                 raise Error("Already sent")
 
-        self.list.append(method_obj)
+        self.tx_list.append(new_tx)
 
-        if abs(self.list[0].time - time.time()*1000) > Const.tx_ttl:
-            self.list.pop(0)
+        if abs(self.tx_list[0].time - time.time()*1000) > Const.tx_ttl:
+            self.tx_list.pop(0)

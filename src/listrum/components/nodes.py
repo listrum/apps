@@ -14,15 +14,15 @@ class NodeReq:
 
         self.address = "https://" + address
 
-    def balance(self, owner: str) -> float:
-        res = requests.get(self.address + "/balance/" + owner)
+    def balance(self, wallet: str) -> float:
+        res = requests.get(self.address + "/balance/" + wallet)
         return float(res.text)
 
-    def send(self, body: str) -> Response:
-        return requests.get(self.address + "/send/" + body)
+    def send(self, tx: str) -> Response:
+        return requests.get(self.address + "/send/" + tx)
 
-    def history(self, owner: str) -> Response:
-        return requests.get(self.address + "/history/" + owner)
+    def history(self, wallet: str) -> Response:
+        return requests.get(self.address + "/history/" + wallet)
 
 
 class Nodes:
@@ -42,34 +42,34 @@ class Nodes:
     def clear(self) -> None:
         self.list = []
 
-    def send(self, data) -> None:
+    def send(self, tx) -> None:
         try:
-            data = json.dumps(data)
+            tx = json.dumps(tx)
         except:
             pass
 
         for node in self.list:
-            node.send(data)
+            node.send(tx)
 
-    def balance(self, owner: str) -> float:
+    def balance(self, wallet: str) -> float:
         balance = 0
-        total = 0
+        nodes = 0
 
         for node in self.list:
             try:
-                balance += node.balance(owner)
-                total += 1
+                balance += node.balance(wallet)
+                nodes += 1
 
             except:
                 pass
 
-        if not total:
+        if not nodes:
             return 0
 
-        return balance/total
+        return balance/nodes
 
-    def client(self, key: dict = {}) -> Client:
-        cli = Client(key)
+    def client(self, pub: dict = {}) -> Client:
+        cli = Client(pub)
         cli.set_nodes(self)
 
         return cli

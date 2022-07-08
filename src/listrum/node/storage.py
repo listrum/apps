@@ -16,30 +16,30 @@ class Storage:
         self.dir = dir
         self.node = node
 
-    def get(self, owner: str) -> float:
+    def get(self, wallet: str) -> float:
         try:
-            with open(self.dir + owner) as f:
+            with open(self.dir + wallet) as f:
                 return float(f.read())
 
         except:
-            Thread(target=self.from_node, args=(owner,)).start()
+            Thread(target=self.from_node, args=(wallet,)).start()
 
             return 0.0
 
-    def from_node(self, owner: str) -> None:
-        balance = self.node.nodes.balance(owner)
+    def from_node(self, wallet: str) -> None:
+        balance = self.node.nodes.balance(wallet)
 
         try:
-            open(self.dir + owner)
+            open(self.dir + wallet)
         except:
             if balance > 0.0:
-                self.set(owner, balance)
+                self.set(wallet, balance)
 
-    def set(self, owner: str, value: float) -> None:
+    def set(self, wallet: str, value: float) -> None:
 
         if not value:
-            os.remove(self.dir + owner)
+            os.remove(self.dir + wallet)
             return
 
-        with open(self.dir + owner, "w") as f:
+        with open(self.dir + wallet, "w") as f:
             f.write(str(value))
