@@ -31,7 +31,7 @@ def create_node(node: Node) -> Node:
     if not key:
         key = "keys/privkey.pem"
 
-    port = input("Node port (" + Const.port_str + "): ")
+    port = input("Node port (" + str(Const.port) + "): ")
     if not port:
         port = Const.port
     port = int(port)

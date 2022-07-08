@@ -1,19 +1,31 @@
+from asyncio import start_server
+from components.constants import Const
 from utils.https import Request, Server
 from components.nodes import Nodes, nodes_command
 from components.error import Error
+import os
 
 
 class KeyStorage(Server):
 
-    def __init__(self, wallet: str, path: str = "key_storage") -> None:
+    def __init__(self, wallet: str, path: str) -> None:
         if path[-1:] != "/":
             path += "/"
+
+        try:
+            os.mkdir(path)
+        except:
+            pass
 
         self.path = path
         self.nodes = Nodes()
         self.wallet = wallet
 
         self.price = 1.0
+
+    def start(self, certfile: str, keyfile: str, port: int = Const.port) -> None:
+        self.start_server(port, certfile,
+                          keyfile)
 
     def on_data(self, req: Request) -> None:
 
@@ -49,13 +61,27 @@ class KeyStorage(Server):
 
 
 if __name__ == "__main__":
-    app = KeyStorage()
 
     path = input("Key storage path: ")
     if not path:
         path = "key_storage"
 
-    app.path = path
+    app = KeyStorage(input("Your wallet: "), path)
+
+    cert = input("Path to SSL certificate (keys/fullchain.pem): ")
+    if not cert:
+        cert = "keys/fullchain.pem"
+
+    key = input("Path to SLL private key (keys/privkey.pem): ")
+    if not key:
+        key = "keys/privkey.pem"
+
+    port = input("Storage port (" + str(Const.storage_port) + "): ")
+    if not port:
+        port = Const.storage_port
+    port = int(port)
+
+    app.start(cert, key, port)
 
     while True:
         command = input("/").split(" ")
