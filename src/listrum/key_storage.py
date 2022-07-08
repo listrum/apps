@@ -50,9 +50,11 @@ class KeyStorage(Server):
         value = self.nodes.client(priv)
         temp_wallet = self.nodes.client()
 
+        print(value.balance())
+
         value.send_all(temp_wallet.wallet)
 
-        if temp_wallet.balance() < self.price*Const.fee:
+        if temp_wallet.balance() < self.price/Const.fee*Const.fee*Const.fee:
             raise Error("Bad price")
 
         temp_wallet.send_all(self.wallet)
@@ -65,6 +67,8 @@ if __name__ == "__main__":
         path = "key_storage"
 
     app = KeyStorage(input("Your wallet: "), path)
+
+    app.nodes.add_node(input("Node: "))
 
     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
     if not cert:

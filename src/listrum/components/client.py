@@ -44,7 +44,7 @@ class Client:
     def send_all(self, to: str) -> None:
         data = {
             "to": to,
-            "value": self.balance()*Const.fee
+            "value": self.balance()
         }
 
         owner = self.get_owner(json.dumps(data).replace(" ", ""))
