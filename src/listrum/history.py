@@ -34,7 +34,7 @@ class History(NodePrototype):
 
 def check_history(req: Request, node: History) -> None:
     if req.method == "send":
-        from_wallet = pad_key(req.body["from"]["wallet"])
+        from_wallet = pad_key(req.body["from"]["pub"])
         to_wallet = req.body["data"]["to"]
 
         try:
@@ -83,8 +83,9 @@ if __name__ == "__main__":
     create_node(node)
 
     while True:
+        command = input("/").split(" ")
+
         try:
-            command = input("/").split(" ")
             nodes_command(command, node.nodes)
 
             if command[0] == "history":

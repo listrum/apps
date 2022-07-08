@@ -47,8 +47,9 @@ if __name__ == "__main__":
     create_node(node)
 
     while True:
+        command = input("/").split(" ")
+
         try:
-            command = input("/").split(" ")
 
             if command[0] in ["issue", "mint"]:
                 try:

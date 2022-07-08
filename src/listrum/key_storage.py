@@ -80,10 +80,12 @@ if __name__ == "__main__":
     port = int(port)
 
     app.start(cert, key, port)
+    print("App started!")
 
     while True:
+        command = input("/").split(" ")
+
         try:
-            command = input("/").split(" ")
 
             nodes_command(command, app.nodes)
 
