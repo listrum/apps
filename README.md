@@ -1,6 +1,6 @@
 # [Node](https://github.com/listrum/node-client#running-a-node) / [Client](https://github.com/listrum/node-client#working-with-client) / [Networking](https://github.com/listrum/node-client#network-interface)
 ## Running a node
-**Requirements**: python3, pip, domain with SSL certificate
+**Requirements**: python3, pip, domain with an SSL certificate
 
 - Installing python package:
 >`pip install listrum`
@@ -11,11 +11,15 @@
 - (Optional) Starting a history node:
 >`python3 -m listrum.history`
 
+- (Optional) Starting a key storage:
+>`python3 -m listrum.key_storage`
+
 ### Glossary:
 - **Node list** - node list to send and get data from
 - **Repay** - amount of value payed back to sender
 - **Fee** - difference between sended and received value
 - **History node** - node that saves txs and sends it with /history/
+- **Key storage** - store wrapped keys remotely for a price labled by a name
 - **tx_ttl** - time tx will be stored until timestamp invalid
 - **pad_length** - short public key length
 - **fee** - present of sended value that will be received
