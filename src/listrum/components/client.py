@@ -42,11 +42,10 @@ class Client:
 
         return owner
 
-    def send(self, to: str, value: float) -> Response:
-
+    def send_all(self, to: str) -> None:
         data = {
             "to": to,
-            "value": float(value)/Const.fee
+            "value": self.balance()*Const.fee
         }
 
         owner = self.get_owner(json.dumps(data).replace(" ", ""))

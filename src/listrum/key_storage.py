@@ -50,19 +50,12 @@ class KeyStorage(Server):
         value = self.nodes.client(from_priv)
         temp_wallet = self.nodes.client()
 
-        if value.balance() < self.price:
+        value.send_all(temp_wallet.key)
+
+        if temp_wallet.balance() < self.price*Const.fee:
             Error("Bad price")
 
-        self.price *= Const.fee
-
-        value.send(temp_wallet.key, self.price)
-
-        if temp_wallet.balance() < self.price:
-            Error("Unable to trasfer")
-
-        self.price *= Const.fee
-
-        temp_wallet.send(self.wallet, self.price)
+        temp_wallet.send_all(self.wallet)
 
 
 if __name__ == "__main__":
