@@ -17,7 +17,7 @@ class Node(NodePrototype):
 
 def create_node(node: Node) -> Node:
 
-    path = input("Storage path (node/): ")
+    path = input("Storage path (node_storage/): ")
     if not path:
         path = "node_storage"
 

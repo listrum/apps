@@ -1,4 +1,5 @@
 import json
+from threading import Thread
 import requests
 from requests import Response
 
@@ -49,7 +50,7 @@ class Nodes:
             pass
 
         for node in self.list:
-            node.send(tx)
+            Thread(target=node.send, args=(tx,)).start()
 
     def balance(self, wallet: str) -> float:
         balance = 0
