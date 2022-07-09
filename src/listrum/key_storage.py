@@ -46,8 +46,6 @@ class KeyStorage(Server):
         value = self.nodes.client(priv)
         temp_wallet = self.nodes.client()
 
-        print(value.balance())
-
         value.send_all(temp_wallet.wallet)
 
         if temp_wallet.balance() < self.price/Const.fee*Const.fee*Const.fee:

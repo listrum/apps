@@ -66,7 +66,6 @@
 	{
 		"from": PrivateKey,
 		"data" {
-			"price": PaidPrice,
 			"key": [Key, WrappedPrivateKey],
 			"name": KeyName
 		}
@@ -78,6 +77,15 @@
 	HTTPS GET :2522/get/KeyName
 
 	200 OK [Key, WrappedPrivateKey]
+
+### Connect node:
+	HTTPS GET :2525/connect/
+	{
+		"from": PrivateKey,
+		"data": NodeAddress,
+	}
+
+	200 OK
 
 
 ## Nodes API
