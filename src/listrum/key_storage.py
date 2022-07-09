@@ -24,10 +24,6 @@ class KeyStorage(Server):
 
         self.price = 1.0
 
-    def start(self, certfile: str, keyfile: str, port: int = Const.port) -> None:
-        self.start_server(port, certfile,
-                          keyfile)
-
     def on_data(self, req: Request) -> None:
 
         if req.method == "store":
@@ -83,7 +79,7 @@ if __name__ == "__main__":
         port = Const.storage_port
     port = int(port)
 
-    app.start(cert, key, port)
+    app.start_server(port, cert, key)
     print("App started!")
 
     while True:

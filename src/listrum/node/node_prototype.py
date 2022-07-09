@@ -16,10 +16,6 @@ class NodePrototype(Server):
 
         self.repay = Repay()
 
-    def start(self, certfile: str, keyfile: str, port: int = Const.port) -> None:
-        self.start_server(port, certfile,
-                          keyfile)
-
     def set_storage(self, dir: str = "node") -> None:
         self.storage = Storage(dir, self)
 

@@ -36,7 +36,7 @@ def create_node(node: Node) -> Node:
         port = Const.port
     port = int(port)
 
-    node.start(cert, key, port)
+    node.start_server(port, cert, key)
 
     print("Node started!")
     print("Command line:")

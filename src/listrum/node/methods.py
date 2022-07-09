@@ -30,13 +30,14 @@ def check_send(req: Request, node: NodePrototype) -> None:
     send.repay(node)
 
     node.tx_list.add(send)
+
     send.add_value(node.storage)
+
+    req.end()
 
     node.nodes.send(req.body)
 
     # print(send.to, send.value)
-
-    req.end()
 
     # print(1)
 
