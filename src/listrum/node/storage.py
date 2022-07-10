@@ -1,7 +1,7 @@
 import os
 from threading import Thread
 
-from listrum.components.nodes import Nodes
+from components.nodes import Nodes
 
 
 class Storage:
