@@ -16,14 +16,11 @@ class NodeReq:
         self.address = "https://" + address
 
     def balance(self, wallet: str) -> float:
-        res = requests.get(self.address + "/balance/" + wallet)
+        res = requests.get(self.address + "/balance/" + wallet, timeout=3)
         return float(res.text)
 
     def send(self, tx: str) -> Response:
-        return requests.get(self.address + "/send/" + tx)
-
-    def history(self, wallet: str) -> Response:
-        return requests.get(self.address + "/history/" + wallet)
+        return requests.get(self.address + "/send/" + tx, timeout=3)
 
 
 class Nodes:
@@ -50,7 +47,10 @@ class Nodes:
             pass
 
         for node in self.list:
-            Thread(target=node.send, args=(tx,)).start()
+            try:
+                node.send(tx)
+            except:
+                pass
 
     def balance(self, wallet: str) -> float:
         balance = 0

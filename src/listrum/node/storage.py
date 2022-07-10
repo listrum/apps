@@ -1,10 +1,12 @@
 import os
 from threading import Thread
 
+from listrum.components.nodes import Nodes
+
 
 class Storage:
 
-    def __init__(self, dir: str, node) -> None:
+    def __init__(self, dir: str, nodes: Nodes) -> None:
         if dir[-1:] != "/":
             dir += "/"
 
@@ -14,7 +16,7 @@ class Storage:
             pass
 
         self.dir = dir
-        self.node = node
+        self.nodes = nodes
 
     def get(self, wallet: str) -> float:
         try:
@@ -27,7 +29,7 @@ class Storage:
             return 0.0
 
     def from_node(self, wallet: str) -> None:
-        balance = self.node.nodes.balance(wallet)
+        balance = self.nodes.balance(wallet)
 
         try:
             open(self.dir + wallet)

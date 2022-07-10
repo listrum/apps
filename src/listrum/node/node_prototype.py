@@ -17,7 +17,7 @@ class NodePrototype(Server):
         self.repay = Repay()
 
     def set_storage(self, dir: str = "node") -> None:
-        self.storage = Storage(dir, self)
+        self.storage = Storage(dir, self.nodes)
 
     def issue(self, wallet: str, value: float) -> None:
         self.storage.set(wallet, self.storage.get(wallet) + value)

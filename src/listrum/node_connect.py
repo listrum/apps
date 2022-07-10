@@ -1,10 +1,11 @@
+from listrum.node.storage import Storage
 from utils.https import Request
 from components.constants import Const
 from components.error import Error
 from components.nodes import nodes_command, Nodes
 from node import create_node
 from node.node_prototype import NodePrototype
-from node.methods import check_balance, check_send
+from node.methods import check_send, check_balance
 
 
 class Node(NodePrototype):
@@ -23,6 +24,7 @@ class Node(NodePrototype):
     def primary_node(self, address: str) -> None:
         self.primary = Nodes()
         self.primary.add_node(address)
+        self.storage = Storage(self.storage.dir, self.primary)
 
 
 def check_add(req: Request, self: Node) -> None:
