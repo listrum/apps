@@ -25,6 +25,8 @@
 - **fee** - present of sended value that will be received
 - **repay_update** - time after repay value will be updated
 - **repay_value** - present of all repay value per transaction 
+- **Connect node** - resend transactions to your node for a price
+- **Primary node (connect node)** - node where you get balances, can be the same node
 
 ### Commands:
 - /list - list all connected nodes
@@ -32,6 +34,7 @@
 - /remove Node - remove node from node list
 - /issue Value Address - add value to address
 - /clear - remove all nodes
+- /wallet - change your wallet for payable methods 
 
 ### Node interface:
 
