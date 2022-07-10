@@ -61,7 +61,7 @@ class Server:
 
     def listen(self) -> None:
 
-        while True:
+        while 1:
             try:
                 conn, _ = self.sock.accept()
                 Thread(target=self.new_conn, args=(conn,)).start()
