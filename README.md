@@ -8,11 +8,29 @@
 - Starting a node:
 >`python3 -m listrum.node`
 
-- Starting a history node:
->`python3 -m listrum.history`
-
-- Starting a key storage:
->`python3 -m listrum.key_storage`
+### Config:
+	{
+		"storage": "temp/storage", - Storage of balances
+		"port": 2525,
+		"wallet": "vNNMgYUdN_bgsQuE0", - your wallet for app payments
+		"cert": "keys/fullchain.pem", - SSL sertificate
+		"cert_key": "keys/privkey.pem", - SSL private key
+		"node_connect": {
+			"enabled": true, - connect to your nodes to broadcast txs
+			"price": 1.0, - price of connection
+			"prime": "listrum.com" - first node address, can be your
+		},
+		"history": {
+			"enabled": true, - save history
+			"path": "temp/history" - path to save history
+		},
+		"key_storage": {
+			"enabled": true, - store user's keys, launch with key_storage.py
+			"port": 2526,
+			"path": "temp/key_storage",
+			"price": 1.0
+		}
+	}
 
 ### Glossary:
 - **Node list** - node list to send and get data from
@@ -63,6 +81,11 @@
 	
 	200 OK [{"to": WalletAddress, "value": FloatValue}, ..]
 
+### Get fee
+	HTTPS GET :2525/fee
+
+	200 OK Fee
+
 ### Key storage interface:
 #### Store your key:
 	HTTPS GET :2522/store/
@@ -90,16 +113,20 @@
 
 	200 OK
 
+### Get app price
+	HTTPS GET :2525/price
+
+	200 OK Price
 
 ## Nodes API
 	add_node(address: str)
 	remove_node(address: str)
 	clear()
-	send(data)
+	send(data) -> spend
 	balance(padded_key)
 	client(key: dict = {}) -> Client - client constructor with self nodes and JWK
 
 ## Client API
 	Client(key: dict = {}) - use plain JWK from browser
-	send_add(to: str) - sends all funds to address
+	send_all(to: str) - sends all funds to address
 	balance() -> float - balance of the key, with nodes provided
