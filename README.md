@@ -124,9 +124,10 @@
 	clear()
 	send(data) -> spend
 	balance(padded_key)
-	client(key: dict = {}) -> Client - client constructor with self nodes and JWK
+	client(key: dict = {}) -> Client - create client using nodes from list
 
 ## Client API
 	Client(key: dict = {}) - use plain JWK from browser
 	send_all(to: str) - sends all funds to address
 	balance() -> float - balance of the key, with nodes provided
+	wallet: str - client's padded wallet
