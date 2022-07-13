@@ -54,40 +54,40 @@ class KeyStorage(Server):
         temp_wallet.send_all(self.wallet)
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    path = input("Key storage path: ")
-    if not path:
-        path = "key_storage"
+#     path = input("Key storage path: ")
+#     if not path:
+#         path = "key_storage"
 
-    app = KeyStorage(input("Your wallet: "), path)
+#     app = KeyStorage(input("Your wallet: "), path)
 
-    app.nodes.add_node(input("Node: "))
+#     app.nodes.add_node(input("Node: "))
 
-    cert = input("Path to SSL certificate (keys/fullchain.pem): ")
-    if not cert:
-        cert = "keys/fullchain.pem"
+#     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
+#     if not cert:
+#         cert = "keys/fullchain.pem"
 
-    key = input("Path to SLL private key (keys/privkey.pem): ")
-    if not key:
-        key = "keys/privkey.pem"
+#     key = input("Path to SLL private key (keys/privkey.pem): ")
+#     if not key:
+#         key = "keys/privkey.pem"
 
-    port = input("Storage port (" + str(Const.storage_port) + "): ")
-    if not port:
-        port = Const.storage_port
-    port = int(port)
+#     port = input("Storage port (" + str(Const.storage_port) + "): ")
+#     if not port:
+#         port = Const.storage_port
+#     port = int(port)
 
-    app.start_server(port, cert, key)
-    print("App started!")
+#     app.start_server(port, cert, key)
+#     print("App started!")
 
-    while True:
-        command = input("/").split(" ")
+#     while True:
+#         command = input("/").split(" ")
 
-        try:
+#         try:
 
-            nodes_command(command, app.nodes)
+#             nodes_command(command, app.nodes)
 
-            if command[0] == "wallet":
-                app.wallet = command[1]
-        except:
-            pass
+#             if command[0] == "wallet":
+#                 app.wallet = command[1]
+#         except:
+#             pass

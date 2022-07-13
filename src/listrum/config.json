@@ -1,0 +1,15 @@
+{
+    "storage": "temp/storage",
+    "port": 2525,
+    "wallet": "",
+    "cert": "keys/fullchain.pem",
+    "cert_key": "keys/privkey.pem",
+    "node_connect": {
+        "enabled": true,
+        "price": 1.0
+    },
+    "history": {
+        "enabled": true,
+        "path": "temp/history"
+    }
+}

@@ -1,11 +1,7 @@
 test.py
 .vscode/**
-**/test
+**/temp
 **/keys
 **/dist
 *.egg-info
 **/__pycache__
-**/history
-**/key_storage
-**/node_storage
-**/node1
