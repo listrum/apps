@@ -6,7 +6,7 @@ from components.nodes import Nodes, nodes_command
 from node_utils.repay import Repay
 from node_utils.storage import Storage
 from node_utils.tx_list import TxList
-from node_utils.methods import check_balance, check_connect, check_connect_price, check_history, check_send
+from node_utils.methods import check_balance, check_connect, check_connect_price, check_history, check_send, check_fee
 
 from utils.https import Server, Request
 
@@ -46,6 +46,7 @@ class Node(Server):
     def on_data(self, req: Request) -> None:
         check_balance(req, self)
         check_send(req, self)
+        check_fee(req)
 
         if self.config["history"]["enabled"]:
             check_history(req, self.config["history"]["path"])

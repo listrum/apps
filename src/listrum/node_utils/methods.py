@@ -10,6 +10,12 @@ from node_utils.node_prototype import NodePrototype
 from node_utils.send import Send
 
 
+def check_fee(req: Request) -> None:
+    if req.method != "fee":
+        return
+    req.end(Const.fee)
+
+
 def check_connect_price(req: Request, self: NodePrototype) -> None:
     if req.method != "price":
         return

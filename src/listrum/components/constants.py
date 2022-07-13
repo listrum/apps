@@ -1,6 +1,5 @@
 class Const:
     port = 2525
-    storage_port = 2522
     tx_ttl = 2000
     pad_length = 17
     fee = 0.998
