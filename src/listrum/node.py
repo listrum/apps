@@ -6,7 +6,7 @@ from components.nodes import Nodes, nodes_command
 from node_utils.repay import Repay
 from node_utils.storage import Storage
 from node_utils.tx_list import TxList
-from node_utils.methods import check_balance, check_connect, check_history, check_send
+from node_utils.methods import check_balance, check_connect, check_connect_price, check_history, check_send
 
 from utils.https import Server, Request
 
@@ -25,11 +25,14 @@ class Node(Server):
 
         if self.config["node_connect"]["enabled"]:
             self.primary = Nodes()
-            self.primary.add_node("127.0.0.1:" + str(self.config["port"]))
+            self.primary.add_node(self.config["node_connect"]["prime"])
 
             self.storage = Storage(self.storage.dir, self.primary)
 
         if self.config["history"]["enabled"]:
+            if self.config["history"]["path"][-1] != "/":
+                self.config["history"]["path"] += "/"
+
             try:
                 os.makedirs(self.config["history"]["path"])
             except:
@@ -48,11 +51,12 @@ class Node(Server):
             check_history(req, self.config["history"]["path"])
 
         if self.config["node_connect"]["enabled"]:
+            check_connect_price(req, self)
             check_connect(req, self)
 
         req.end("", 401)
 
-    def issue(self, value: int) -> None:
+    def issue(self, value: float) -> None:
         self.storage.set(self.wallet, self.storage.get(
             self.wallet) + float(value))
 
@@ -70,10 +74,8 @@ if __name__ == "__main__":
                 nodes_command(command, node.nodes)
 
             if command[0] in ["issue", "mint"]:
-                try:
-                    node.issue(command[1], float(command[2]))
-                except:
-                    node.issue(command[2], float(command[1]))
+
+                node.issue(float(command[1]))
 
         except:
             pass

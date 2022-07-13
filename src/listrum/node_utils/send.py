@@ -4,11 +4,10 @@ import time
 from components.constants import Const
 from components.error import Error
 
+from node_utils.node_prototype import NodePrototype
 from node_utils.storage import Storage
 
 from utils.crypto import pad_key, verify
-
-from node_prototype import NodePrototype
 
 
 class Send:

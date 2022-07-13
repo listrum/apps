@@ -1,12 +1,13 @@
 {
     "storage": "temp/storage",
     "port": 2525,
-    "wallet": "",
+    "wallet": "vNNMgYUdN_bgsQuE0",
     "cert": "keys/fullchain.pem",
     "cert_key": "keys/privkey.pem",
     "node_connect": {
         "enabled": true,
-        "price": 1.0
+        "price": 1.0,
+        "prime": "listrum.com:2525"
     },
     "history": {
         "enabled": true,

@@ -12,7 +12,9 @@ class Request:
         self.closed = False
 
     def get(self) -> None:
-        path = self.conn.recv(64000).decode().split(' ')[1].split("/")
+        path = self.conn.recv(64000).decode().split(' ')
+        # print(path)
+        path = path[1].split("/")
 
         self.method = path[1]
         self.body = ""

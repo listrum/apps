@@ -7,3 +7,4 @@ class Const:
     repay_update = 30*1000
     repay_value = 0.01
     history_len = 5
+    temp_storage_len = 10

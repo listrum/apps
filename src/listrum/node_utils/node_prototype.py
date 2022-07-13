@@ -16,7 +16,7 @@ class NodePrototype(Server):
 
     config = {}
 
-    storage = Storage(config["storage"], nodes)
+    storage = Storage("", nodes)
 
     def issue(self, value: int) -> None:
         pass

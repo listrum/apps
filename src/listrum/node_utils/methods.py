@@ -1,19 +1,20 @@
 import json
-import time
-import os
 
 from components.constants import Const
-from components.nodes import Nodes, nodes_command
 from components.error import Error
 
-from node_utils.repay import Repay
-from node_utils.storage import Storage
-from node_utils.tx_list import TxList
+from utils.https import Request
+from utils.crypto import pad_key
 
-from utils.https import Server, Request
-from utils.crypto import pad_key, verify
+from node_utils.node_prototype import NodePrototype
+from node_utils.send import Send
 
-from node_prototype import NodePrototype
+
+def check_connect_price(req: Request, self: NodePrototype) -> None:
+    if req.method != "price":
+        return
+
+    req.end(float(self.config["node_connect"]["price"]))
 
 
 def check_connect(req: Request, self: NodePrototype) -> None:
