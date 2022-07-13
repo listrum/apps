@@ -12,5 +12,11 @@
     "history": {
         "enabled": true,
         "path": "temp/history"
+    },
+    "key_storage": {
+        "enabled": true,
+        "port": 2526,
+        "path": "temp/key_storage",
+        "price": 1.0
     }
 }

@@ -24,8 +24,6 @@ def check_connect(req: Request, self: NodePrototype) -> None:
     value = self.primary.client(req.body["from"])
     temp_wallet = self.primary.client()
 
-    print(value.balance(), value.wallet)
-
     value.send_all(temp_wallet.wallet)
 
     if temp_wallet.balance() < float(self.config["node_connect"]["price"])/Const.fee*Const.fee*Const.fee:

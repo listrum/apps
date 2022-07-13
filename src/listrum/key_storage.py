@@ -1,4 +1,3 @@
-from asyncio import start_server
 import json
 from components.constants import Const
 from utils.https import Request, Server
@@ -9,20 +8,28 @@ import os
 
 class KeyStorage(Server):
 
-    def __init__(self, wallet: str, path: str) -> None:
-        if path[-1:] != "/":
-            path += "/"
+    def __init__(self) -> None:
+
+        with open("config.json") as f:
+            self.config = json.loads(f.read())
+
+        self.path = self.config["key_storage"]["path"]
+
+        if self.path[-1:] != "/":
+            self.path += "/"
 
         try:
-            os.mkdir(path)
+            os.mkdir(self.path)
         except:
             pass
 
-        self.path = path
         self.nodes = Nodes()
-        self.wallet = wallet
+        self.wallet = self.config["wallet"]
 
-        self.price = 1.0
+        self.price = self.config["key_storage"]["price"]
+
+        self.start_server(
+            self.config["key_storage"]["port"], self.config["cert"], self.config["cert_key"])
 
     def on_data(self, req: Request) -> None:
 
@@ -33,6 +40,11 @@ class KeyStorage(Server):
 
         if req.method == "get":
             req.end(self.get(req.body))
+
+        if req.method == "price":
+            req.end(self.price)
+
+        req.end("", 401)
 
     def get(self, name: str) -> str:
         with open(self.path + str(name)) as f:
@@ -54,40 +66,19 @@ class KeyStorage(Server):
         temp_wallet.send_all(self.wallet)
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    app = KeyStorage()
 
-#     path = input("Key storage path: ")
-#     if not path:
-#         path = "key_storage"
+    node = input("Add node: ")
+    app.nodes.add_node(node)
 
-#     app = KeyStorage(input("Your wallet: "), path)
+    print("Key storage started!")
 
-#     app.nodes.add_node(input("Node: "))
+    while True:
+        command = input("/").split(" ")
 
-#     cert = input("Path to SSL certificate (keys/fullchain.pem): ")
-#     if not cert:
-#         cert = "keys/fullchain.pem"
+        try:
+            nodes_command(command, app.nodes)
 
-#     key = input("Path to SLL private key (keys/privkey.pem): ")
-#     if not key:
-#         key = "keys/privkey.pem"
-
-#     port = input("Storage port (" + str(Const.storage_port) + "): ")
-#     if not port:
-#         port = Const.storage_port
-#     port = int(port)
-
-#     app.start_server(port, cert, key)
-#     print("App started!")
-
-#     while True:
-#         command = input("/").split(" ")
-
-#         try:
-
-#             nodes_command(command, app.nodes)
-
-#             if command[0] == "wallet":
-#                 app.wallet = command[1]
-#         except:
-#             pass
+        except:
+            pass
