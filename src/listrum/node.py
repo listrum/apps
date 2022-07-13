@@ -25,7 +25,6 @@ class Node(Server):
 
         if self.config["node_connect"]["enabled"]:
             self.primary = Nodes()
-            self.primary.add_node(self.config["node_connect"]["prime"])
 
             self.storage = Storage(self.storage.dir, self.primary)
 
@@ -70,8 +69,8 @@ if __name__ == "__main__":
         try:
             if node.config["node_connect"]["enabled"]:
                 nodes_command(command, node.primary)
-            else:
-                nodes_command(command, node.nodes)
+
+            nodes_command(command, node.nodes)
 
             if command[0] in ["issue", "mint"]:
 

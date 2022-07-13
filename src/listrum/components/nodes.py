@@ -65,7 +65,7 @@ class Nodes:
                 pass
 
         if not nodes:
-            return 0
+            return 0.0
 
         return balance/nodes
 

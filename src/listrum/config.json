@@ -6,8 +6,7 @@
     "cert_key": "keys/privkey.pem",
     "node_connect": {
         "enabled": true,
-        "price": 1.0,
-        "prime": "listrum.com:2525"
+        "price": 1.0
     },
     "history": {
         "enabled": true,
