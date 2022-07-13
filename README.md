@@ -50,7 +50,7 @@
 - /list - list all connected nodes
 - /add Node - add node to node list
 - /remove Node - remove node from node list
-- /issue Value Address - add value to address
+- /issue Value - add value to your wallet
 - /clear - remove all nodes
 - /wallet - change your wallet for payable methods 
 
