@@ -25,6 +25,7 @@ class Node(Server):
 
         if self.config["node_connect"]["enabled"]:
             self.primary = Nodes()
+            self.primary.add_node(self.config["node_connect"]["prime"])
 
             self.storage = Storage(self.storage.dir, self.primary)
 
