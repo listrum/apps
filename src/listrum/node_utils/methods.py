@@ -32,7 +32,7 @@ def check_connect(req: Request, self: NodePrototype) -> None:
 
     value.send_all(temp_wallet.wallet)
 
-    if temp_wallet.balance() < float(self.config["node_connect"]["price"])/Const.fee*Const.fee*Const.fee:
+    if temp_wallet.balance() < float(self.config["node_connect"]["price"])*Const.fee:
         raise Error("Bad price")
 
     temp_wallet.send_all(self.wallet)

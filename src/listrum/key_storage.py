@@ -60,7 +60,7 @@ class KeyStorage(Server):
 
         value.send_all(temp_wallet.wallet)
 
-        if temp_wallet.balance() < self.price/Const.fee*Const.fee*Const.fee:
+        if temp_wallet.balance() < self.price*Const.fee:
             raise Error("Bad price")
 
         temp_wallet.send_all(self.wallet)
