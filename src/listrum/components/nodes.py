@@ -14,7 +14,7 @@ class NodeReq:
             self.address += ":" + str(Const.port)
 
         if address.find("https://") < 0:
-            self.address = "https://" + address
+            self.address = "https://" + self.address
 
     def balance(self, wallet: str) -> float:
         res = requests.get(self.address + "/balance/" + wallet, timeout=3)
@@ -34,11 +34,13 @@ class Nodes:
     def update(self) -> None:
         with open("trusted_nodes.txt") as f:
             for address in f.read().split("\n"):
-                self.trusted.append(NodeReq(address))
+                if address:
+                    self.trusted.append(NodeReq(address))
 
         with open("broadcast_nodes.txt") as f:
             for address in f.read().split("\n"):
-                self.broadcast.append(NodeReq(address))
+                if address:
+                    self.broadcast.append(NodeReq(address))
 
     def send(self, tx) -> None:
         try:
