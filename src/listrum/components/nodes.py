@@ -1,44 +1,44 @@
 import json
-from threading import Thread
+import re
 import requests
-from requests import Response
 
 from components.constants import Const
-from components.client import Client
 
 
 class NodeReq:
     def __init__(self, address: str) -> None:
 
-        if address.find(":") < 0:
-            address += ":" + str(Const.port)
+        self.address = address
 
-        self.address = "https://" + address
+        if len(re.findall(r":[0-9]+$", address)) < 1:
+            self.address += ":" + str(Const.port)
+
+        if address.find("https://") < 0:
+            self.address = "https://" + address
 
     def balance(self, wallet: str) -> float:
         res = requests.get(self.address + "/balance/" + wallet, timeout=3)
         return float(res.text)
 
-    def send(self, tx: str) -> Response:
-        return requests.get(self.address + "/send/" + tx, timeout=3)
+    def send(self, tx: str):
+        requests.get(self.address + "/send/" + tx, timeout=3)
 
 
 class Nodes:
     def __init__(self) -> None:
-        self.list = []
+        self.trusted = []
+        self.broadcast = []
 
-    def add_node(self, address: str) -> None:
-        self.list.append(NodeReq(address))
+        self.update()
 
-    def remove_node(self, address: str) -> None:
-        nodes = self.list
+    def update(self) -> None:
+        with open("trusted_nodes.txt") as f:
+            for address in f.read().split("\n"):
+                self.trusted.append(NodeReq(address))
 
-        for node in nodes:
-            if node.address.find(address) >= 0:
-                self.list.remove(node)
-
-    def clear(self) -> None:
-        self.list = []
+        with open("broadcast_nodes.txt") as f:
+            for address in f.read().split("\n"):
+                self.broadcast.append(NodeReq(address))
 
     def send(self, tx) -> None:
         try:
@@ -46,49 +46,31 @@ class Nodes:
         except:
             pass
 
-        for node in self.list:
+        for node in self.broadcast:
             try:
                 node.send(tx)
             except:
-                pass
+                print("Unable to send to " + node.address)
+
+        for node in self.trusted:
+            try:
+                node.send(tx)
+            except:
+                print("Unable to send to " + node.address)
 
     def balance(self, wallet: str) -> float:
         balance = 0
         nodes = 0
 
-        for node in self.list:
+        for node in self.trusted:
             try:
                 balance += node.balance(wallet)
                 nodes += 1
 
             except:
-                pass
+                print("Unable get balance from " + node.address)
 
         if not nodes:
             return 0.0
 
         return balance/nodes
-
-    def client(self, pub: dict = {}) -> Client:
-        cli = Client(pub)
-        cli.set_nodes(self)
-
-        return cli
-
-
-def nodes_command(command: list, nodes: Nodes) -> None:
-    if command[0] == "remove":
-        nodes.remove_node(command[1])
-
-    if command[0] in ["add", "node"]:
-        nodes.add_node(command[1])
-
-    if command[0] in ["list", "nodes"]:
-        for node in nodes.list:
-            print(node.address)
-
-    if command[0] == "clear":
-        nodes.list = []
-
-    if command[0] in ["exit", "quit", "q", "close"]:
-        exit()

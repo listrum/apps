@@ -1,12 +1,11 @@
 import json
-import os
 
-from components.nodes import Nodes, nodes_command
+from components.nodes import Nodes
 
 from node_utils.repay import Repay
 from node_utils.storage import Storage
 from node_utils.tx_list import TxList
-from node_utils.methods import check_balance, check_connect, check_connect_price, check_history, check_send, check_fee
+from node_utils.methods import check_balance, check_send, check_fee
 
 from utils.https import Server, Request
 
@@ -17,26 +16,11 @@ class Node(Server):
         self.nodes = Nodes()
         self.repay = Repay()
 
-        with open("config.json") as f:
+        with open("node_config.json") as f:
             self.config = json.loads(f.read())
 
-        self.storage = Storage(self.config["storage"], self.nodes)
+        self.storage = Storage(self.config["storage"])
         self.wallet = self.config["wallet"]
-
-        if self.config["node_connect"]["enabled"]:
-            self.primary = Nodes()
-            self.primary.add_node(self.config["node_connect"]["prime"])
-
-            self.storage = Storage(self.storage.dir, self.primary)
-
-        if self.config["history"]["enabled"]:
-            if self.config["history"]["path"][-1] != "/":
-                self.config["history"]["path"] += "/"
-
-            try:
-                os.makedirs(self.config["history"]["path"])
-            except:
-                pass
 
         self.start_server(
             self.config["port"], self.config["cert"], self.config["cert_key"])
@@ -47,13 +31,6 @@ class Node(Server):
         check_balance(req, self)
         check_send(req, self)
         check_fee(req)
-
-        if self.config["history"]["enabled"]:
-            check_history(req, self.config["history"]["path"])
-
-        if self.config["node_connect"]["enabled"]:
-            check_connect_price(req, self)
-            check_connect(req, self)
 
         req.end("", 401)
 
@@ -69,13 +46,13 @@ if __name__ == "__main__":
         command = input("/").split(" ")
 
         try:
-            if node.config["node_connect"]["enabled"]:
-                nodes_command(command, node.primary)
+            if command[0] in ["update", "upgrade", "reload"]:
+                node.nodes.update()
 
-            nodes_command(command, node.nodes)
+            if command[0] in ["exit", "quit", "q", "close"]:
+                exit()
 
             if command[0] in ["issue", "mint"]:
-
                 node.issue(float(command[1]))
 
         except:

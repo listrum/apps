@@ -12,11 +12,10 @@ class NodePrototype(Server):
     tx_list = TxList()
     nodes = Nodes()
     repay = Repay()
-    primary = Nodes()
 
     config = {}
 
-    storage = Storage("", nodes)
+    storage = Storage("")
 
     def issue(self, value: int) -> None:
         pass

@@ -1,12 +1,11 @@
 from base64 import urlsafe_b64encode
 import json
-from random import randint
 from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 import time
-from components.constants import Const
 from utils.crypto import bytes_to_int, import_pub
+from components.nodes import Nodes
 
 
 class Client:
@@ -23,6 +22,8 @@ class Client:
                                       point_y=bytes_to_int(priv["y"]))
 
         self.pub, self.wallet = import_pub(self.priv)
+
+        self.nodes = Nodes()
 
     def get_owner(self, data: str) -> dict:
 
@@ -58,6 +59,3 @@ class Client:
 
     def balance(self) -> float:
         return self.nodes.balance(self.wallet)
-
-    def set_nodes(self, nodes) -> None:
-        self.nodes = nodes

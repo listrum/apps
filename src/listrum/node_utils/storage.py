@@ -7,7 +7,7 @@ from components.constants import Const
 
 class Storage:
 
-    def __init__(self, dir: str, nodes: Nodes) -> None:
+    def __init__(self, dir: str) -> None:
         if dir[-1:] != "/":
             dir += "/"
 
@@ -17,7 +17,7 @@ class Storage:
             pass
 
         self.dir = dir
-        self.nodes = nodes
+        self.nodes = Nodes()
         self.res = []
 
     def get(self, wallet: str) -> float:
