@@ -1,10 +1,7 @@
-import json
 
 from components.constants import Const
-from components.error import Error
 
 from utils.https import Request
-from utils.crypto import pad_key
 
 from node_utils.node_prototype import NodePrototype
 from node_utils.send import Send
@@ -29,8 +26,6 @@ def check_send(req: Request, node: NodePrototype) -> None:
 
     send = Send(req.body)
 
-    # print(send.to, send.wallet, send.value)
-
     send.verify()
     send.check_time()
     send.check_value(node.storage)
@@ -41,9 +36,5 @@ def check_send(req: Request, node: NodePrototype) -> None:
     send.add_value(node.storage)
 
     req.end()
-
+    node.on_send(send)
     node.nodes.send(req.body)
-
-    # print(send.to, send.value)
-
-    # print(1)

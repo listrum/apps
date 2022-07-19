@@ -19,3 +19,6 @@ class NodePrototype(Server):
 
     def issue(self, value: int) -> None:
         pass
+
+    def on_send(self, tx) -> None:
+        pass
