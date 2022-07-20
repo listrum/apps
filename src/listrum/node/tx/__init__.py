@@ -5,7 +5,7 @@ from client.constants import Const
 from client.error import Error
 from client.crypto import pad_key, verify
 
-from node.tx.storage import Storage
+from node.tx.storage import storage
 
 
 class Tx:
@@ -21,8 +21,6 @@ class Tx:
         self.time = int(params["from"]["time"])
         self.sign = str(params["from"]["sign"])
 
-        self.storage = Storage()
-
     def verify(self) -> None:
         verify(self.pub, json.dumps(self.data).replace(
             " ", "") + str(self.time), self.sign)
@@ -32,7 +30,7 @@ class Tx:
             raise Error("Outdated")
 
     def check_value(self) -> None:
-        self.from_value = self.storage.get(self.wallet)
+        self.from_value = storage.get(self.wallet)
 
         if self.value <= 0:
             raise Error("WrongValue")
@@ -42,5 +40,5 @@ class Tx:
 
     def add_value(self) -> None:
 
-        self.storage.set(self.wallet, self.from_value - self.value)
-        self.storage.set(self.to, self.storage.get(self.to) + self.value*Const.fee)
+        storage.set(self.wallet, self.from_value - self.value)
+        storage.set(self.to, storage.get(self.to) + self.value*Const.fee)

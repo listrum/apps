@@ -2,7 +2,7 @@ import json
 import re
 import requests
 
-from constants import Const
+from client.constants import Const
 
 
 class NodeReq:
@@ -76,3 +76,6 @@ class Nodes:
             return 0.0
 
         return balance/nodes
+
+
+nodes = Nodes()

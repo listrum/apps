@@ -1,7 +1,6 @@
 {
-    "storage": "temp/storage",
-    "port": 2525,
-    "wallet": "ICZ7UWgxDwVrDVXI7",
-    "cert": "keys/fullchain.pem",
-    "cert_key": "keys/privkey.pem"
+  "port": 2525,
+  "wallet": "HB44CTeu-57gm8gw4",
+  "cert": "keys/fullchain.pem",
+  "cert_key": "keys/privkey.pem"
 }

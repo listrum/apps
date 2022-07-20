@@ -1,7 +1,7 @@
 import os
 from threading import Thread
 
-from client.nodes import Nodes
+from client.nodes import nodes
 from client.constants import Const
 
 
@@ -15,7 +15,6 @@ class Storage:
         except:
             pass
 
-        self.nodes = Nodes()
         self.res = []
 
     def get(self, wallet: str) -> float:
@@ -32,7 +31,7 @@ class Storage:
             return 0.0
 
     def from_node(self, wallet: str) -> None:
-        balance = self.nodes.balance(wallet)
+        balance = nodes.balance(wallet)
 
         try:
             open(self.dir + wallet)
@@ -52,3 +51,5 @@ class Storage:
 
         with open(self.dir + wallet, "w") as f:
             f.write(str(value))
+
+storage = Storage()

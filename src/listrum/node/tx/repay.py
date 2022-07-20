@@ -1,6 +1,6 @@
 import time
 
-from listrum.client.constants import Const
+from client.constants import Const
 
 
 class Repay:
