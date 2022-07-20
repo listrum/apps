@@ -3,15 +3,18 @@ import os
 import signal
 from threading import Thread
 
-from components.nodes import Nodes
-from node_utils.send import Send
+from listrum.client.nodes import Nodes
+from listrum.node.tx.send import Send
 
-from node_utils.repay import Repay
-from node_utils.storage import Storage
-from node_utils.tx_list import TxList
-from node_utils.methods import check_balance, check_send, check_fee
+from node.tx.repay import Repay
+from node.tx.storage import Storage
+from node.tx.list import TxList
 
-from utils.https import Server, Request
+from node.balance import check_balance
+from node.tx import Tx, check_tx
+from node.fee import check_fee
+
+from listrum.client.https import Server, Request
 
 
 class Node(Server):
@@ -34,8 +37,23 @@ class Node(Server):
 
     def on_data(self, req: Request) -> None:
         check_balance(req, self)
-        check_send(req, self)
         check_fee(req)
+
+        if req.method == "send":
+            tx = Tx(req.body)
+
+            tx.verify()
+            tx.check_time()
+            tx.check_value()
+
+            tx.from_value += self.repay.add(tx.value)
+            self.tx_list.add(tx)
+            tx.add_value()
+
+            req.end()
+
+            self.on_send(tx)
+            self.nodes.send(tx)
 
         req.end("", 401)
 
@@ -43,7 +61,7 @@ class Node(Server):
         self.storage.set(self.wallet, self.storage.get(
             self.wallet) + float(value))
 
-    def on_send(self, tx: Send) -> None:
+    def on_send(self, tx: Tx) -> None:
         pass
 
     def command(self) -> None:
@@ -62,7 +80,7 @@ class Node(Server):
                         os.kill(os.getpid(), signal.SIGUSR1)
 
                     if command[0] in ["issue", "mint"]:
-                        node.issue(float(command[1]))
+                        self.issue(float(command[1]))
 
                 except:
                     pass
@@ -71,4 +89,4 @@ class Node(Server):
 
 
 if __name__ == "__main__":
-    node = Node()
+    Node()

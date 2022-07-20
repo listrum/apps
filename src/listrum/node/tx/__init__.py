@@ -1,16 +1,14 @@
 import json
 import time
 
-from components.constants import Const
-from components.error import Error
+from client.constants import Const
+from client.error import Error
+from client.crypto import pad_key, verify
 
-from node_utils.node_prototype import NodePrototype
-from node_utils.storage import Storage
-
-from utils.crypto import pad_key, verify
+from node.tx.storage import Storage
 
 
-class Send:
+class Tx:
 
     def __init__(self, params: dict) -> None:
 
@@ -23,6 +21,8 @@ class Send:
         self.time = int(params["from"]["time"])
         self.sign = str(params["from"]["sign"])
 
+        self.storage = Storage()
+
     def verify(self) -> None:
         verify(self.pub, json.dumps(self.data).replace(
             " ", "") + str(self.time), self.sign)
@@ -31,21 +31,16 @@ class Send:
         if abs(time.time()*1000 - self.time) > Const.tx_ttl:
             raise Error("Outdated")
 
-    def check_value(self, storage: Storage) -> None:
-        self.from_value = storage.get(self.wallet)
+    def check_value(self) -> None:
+        self.from_value = self.storage.get(self.wallet)
 
         if self.value <= 0:
             raise Error("WrongValue")
 
         if self.from_value < self.value:
-            # print(1)
             raise Error("NotEnough")
 
-    def add_value(self, storage: Storage) -> None:
+    def add_value(self) -> None:
 
-        storage.set(self.wallet, self.from_value - self.value)
-        storage.set(self.to, storage.get(
-            self.to) + self.value*Const.fee)
-
-    def repay(self, node: NodePrototype) -> None:
-        self.from_value += node.repay.add(self.value)
+        self.storage.set(self.wallet, self.from_value - self.value)
+        self.storage.set(self.to, self.storage.get(self.to) + self.value*Const.fee)

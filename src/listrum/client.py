@@ -4,8 +4,8 @@ from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 import time
-from utils.crypto import bytes_to_int, import_pub
-from components.nodes import Nodes
+from client.crypto import bytes_to_int, import_pub
+from client.nodes import Nodes
 
 
 class Client:

@@ -2,7 +2,7 @@ import json
 import re
 import requests
 
-from components.constants import Const
+from constants import Const
 
 
 class NodeReq:

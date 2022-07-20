@@ -1,6 +1,6 @@
 import time
-from components.constants import Const
-from components.error import Error
+from listrum.client.constants import Const
+from listrum.client.error import Error
 
 
 class TxList:

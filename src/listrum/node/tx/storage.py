@@ -1,22 +1,20 @@
 import os
 from threading import Thread
 
-from components.nodes import Nodes
-from components.constants import Const
+from client.nodes import Nodes
+from client.constants import Const
 
 
 class Storage:
 
-    def __init__(self, dir: str) -> None:
-        if dir[-1:] != "/":
-            dir += "/"
+    dir = "storage/"
 
+    def __init__(self) -> None:
         try:
-            os.makedirs(dir)
+            os.makedirs(self.dir)
         except:
             pass
 
-        self.dir = dir
         self.nodes = Nodes()
         self.res = []
 
