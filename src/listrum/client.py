@@ -1,11 +1,14 @@
-from base64 import urlsafe_b64encode
+
 import json
+import time
+from base64 import urlsafe_b64encode
+
 from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
-import time
+
 from client.crypto import bytes_to_int, import_pub
-from client.nodes import Nodes
+from client.nodes import nodes
 
 
 class Client:
@@ -22,8 +25,6 @@ class Client:
                                       point_y=bytes_to_int(priv["y"]))
 
         self.pub, self.wallet = import_pub(self.priv)
-
-        self.nodes = Nodes()
 
     def get_owner(self, data: str) -> dict:
 
@@ -55,7 +56,7 @@ class Client:
             "from": owner
         }
 
-        self.nodes.send(data)
+        nodes.send(data)
 
     def balance(self) -> float:
-        return self.nodes.balance(self.wallet)
+        return nodes.balance(self.wallet)
