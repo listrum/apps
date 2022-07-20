@@ -17,11 +17,11 @@ class NodeReq:
             self.address = "https://" + self.address
 
     def balance(self, wallet: str) -> float:
-        res = requests.get(self.address + "/balance/" + wallet, timeout=3)
+        res = requests.get(self.address + "/balance/" + str(wallet), timeout=3)
         return float(res.text)
 
     def send(self, tx: str):
-        requests.get(self.address + "/send/" + tx, timeout=3)
+        requests.get(self.address + "/send/" + str(tx), timeout=3)
 
 
 class Nodes:
@@ -43,10 +43,7 @@ class Nodes:
                     self.broadcast.append(NodeReq(address))
 
     def send(self, tx) -> None:
-        try:
-            tx = json.dumps(tx)
-        except:
-            pass
+        tx = json.dumps(tx.data)
 
         for node in self.broadcast:
             try:
@@ -62,20 +59,21 @@ class Nodes:
 
     def balance(self, wallet: str) -> float:
         balance = 0
-        nodes = 0
+        sources = 0
+
 
         for node in self.trusted:
             try:
                 balance += node.balance(wallet)
-                nodes += 1
+                sources += 1
 
-            except:
+            except BaseException as b:
                 print("Unable get balance from " + node.address)
 
-        if not nodes:
+        if not sources:
             return 0.0
 
-        return balance/nodes
+        return balance/sources
 
 
 nodes = Nodes()
