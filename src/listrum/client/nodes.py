@@ -26,34 +26,37 @@ class NodeReq:
 
 
 class Nodes:
+    path = os.path.expanduser("~") + "/listrum/"
+
     def __init__(self) -> None:
         self.trusted = []
         self.broadcast = []
 
-        self.update()
-
-    def update(self) -> None:
         try:
-            os.mkdir(os.path.expanduser("~") + "/listrum/")
+            os.mkdir(self.path)
         except:
             pass
 
-        try:
-            open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt")
-        except:
-            open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt", "w")
+        self.update()
+
+    def update(self) -> None:
 
         try:
-            open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt")
+            open(self.path + "trusted_nodes.txt")
         except:
-            open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt", "w")
+            open(self.path + "trusted_nodes.txt", "w")
 
-        with open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt") as f:
+        try:
+            open(self.path + "broadcast_nodes.txt")
+        except:
+            open(self.path + "broadcast_nodes.txt", "w")
+
+        with open(self.path + "trusted_nodes.txt") as f:
             for address in f.read().split("\n"):
                 if address:
                     self.trusted.append(NodeReq(address))
 
-        with open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt") as f:
+        with open(self.path + "broadcast_nodes.txt") as f:
             for address in f.read().split("\n"):
                 if address:
                     self.broadcast.append(NodeReq(address))

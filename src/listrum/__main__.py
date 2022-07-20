@@ -15,19 +15,22 @@ from listrum.client.nodes import nodes
 
 class Node(Server):
 
+    path = os.path.expanduser("~") + "/listrum/"
+
     def __init__(self) -> None:
         self.tx_list = TxList()
         self.repay = Repay()
 
         try:
-            open(os.path.expanduser("~") + "/listrum/node_config.json")
+            os.mkdir(self.path)
         except:
-            try:
-                os.mkdir(os.path.expanduser("~") + "/listrum")
-            except:
-                pass
+            pass
 
-            f = open(os.path.expanduser("~") + "/listrum/node_config.json", "w")
+        try:
+            open(self.path + "node_config.json")
+        except:
+
+            f = open(self.path + "node_config.json", "w")
             f.write(json.dumps({
                 "port": 2525,
                 "wallet": "HB44CTeu-57gm8gw4",
@@ -36,7 +39,7 @@ class Node(Server):
             }))
             f.close()
 
-        with open(os.path.expanduser("~") + "/listrum/node_config.json") as f:
+        with open(self.path + "node_config.json") as f:
             self.config = json.loads(f.read())
 
         self.wallet = self.config["wallet"]
