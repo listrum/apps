@@ -7,7 +7,7 @@ from listrum.client.constants import Const
 
 class Storage:
 
-    dir = os.path.expanduser("~") + "/storage/"
+    dir = os.path.expanduser("~") + "/listrum/storage/"
 
     def __init__(self) -> None:
         try:
