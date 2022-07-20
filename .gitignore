@@ -1,5 +1,6 @@
 test.py
 *.egg-info
+upload.sh
 
 **/.vscode
 **/temp

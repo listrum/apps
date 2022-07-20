@@ -3,7 +3,7 @@ from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 
-from client.constants import Const
+from listrum.client.constants import Const
 
 
 def int_to_bytes(number: int) -> str:

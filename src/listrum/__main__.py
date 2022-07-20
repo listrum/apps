@@ -3,15 +3,15 @@ import os
 import signal
 from threading import Thread
 
-from node.tx.repay import Repay
-from node.tx.storage import storage
-from node.tx.list import TxList
-from node.tx import Tx
-from node.balance import check_balance
-from node.fee import check_fee
+from listrum.node.tx.repay import Repay
+from listrum.node.tx.storage import storage
+from listrum.node.tx.list import TxList
+from listrum.node.tx import Tx
+from listrum.node.balance import check_balance
+from listrum.node.fee import check_fee
 
-from client.https import Server, Request
-from client.nodes import nodes
+from listrum.client.https import Server, Request
+from listrum.client.nodes import nodes
 
 class Node(Server):
 
@@ -19,7 +19,24 @@ class Node(Server):
         self.tx_list = TxList()
         self.repay = Repay()
 
-        with open("node_config.json") as f:
+        try:
+            open(os.path.expanduser("~") + "/listrum/node_config.json")
+        except:
+            try:
+                os.mkdir(os.path.expanduser("~") + "/listrum")
+            except:
+                pass
+
+            f = open(os.path.expanduser("~") + "/listrum/node_config.json", "w")
+            f.write(json.dumps({
+                "port": 2525,
+                "wallet": "HB44CTeu-57gm8gw4",
+                "cert": "/home/me/keys/fullchain.pem",
+                "cert_key": "/home/me/keys/privkey.pem" 
+            }))
+            f.close()
+
+        with open(os.path.expanduser("~") + "/listrum/node_config.json") as f:
             self.config = json.loads(f.read())
 
         self.wallet = self.config["wallet"]
@@ -80,6 +97,4 @@ class Node(Server):
 
         Thread(target=check_command).start()
 
-
-if __name__ == "__main__":
-    Node()
+Node()

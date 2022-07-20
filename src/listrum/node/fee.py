@@ -1,5 +1,5 @@
-from client.constants import Const
-from client.https import Request
+from listrum.client.constants import Const
+from listrum.client.https import Request
 
 
 def check_fee(req: Request) -> None:

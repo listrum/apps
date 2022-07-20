@@ -1,8 +1,8 @@
 import os
 from threading import Thread
 
-from client.nodes import nodes
-from client.constants import Const
+from listrum.client.nodes import nodes
+from listrum.client.constants import Const
 
 
 class Storage:

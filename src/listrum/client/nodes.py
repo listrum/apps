@@ -1,8 +1,9 @@
 import json
 import re
 import requests
+import os
 
-from client.constants import Const
+from listrum.client.constants import Const
 
 
 class NodeReq:
@@ -32,12 +33,27 @@ class Nodes:
         self.update()
 
     def update(self) -> None:
-        with open("trusted_nodes.txt") as f:
+        try:
+            os.mkdir(os.path.expanduser("~") + "/listrum/")
+        except:
+            pass
+
+        try:
+            open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt")
+        except:
+            open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt", "w")
+
+        try:
+            open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt")
+        except:
+            open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt", "w")
+
+        with open(os.path.expanduser("~") + "/listrum/trusted_nodes.txt") as f:
             for address in f.read().split("\n"):
                 if address:
                     self.trusted.append(NodeReq(address))
 
-        with open("broadcast_nodes.txt") as f:
+        with open(os.path.expanduser("~") + "/listrum/broadcast_nodes.txt") as f:
             for address in f.read().split("\n"):
                 if address:
                     self.broadcast.append(NodeReq(address))
