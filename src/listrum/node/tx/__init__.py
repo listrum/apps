@@ -12,6 +12,8 @@ class Tx:
 
     def __init__(self, params: dict) -> None:
 
+        self.params = params
+
         self.data = params["data"]
         self.to = str(params["data"]["to"])
         self.value = float(params["data"]["value"])

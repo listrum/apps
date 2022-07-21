@@ -10,7 +10,6 @@ from Crypto.Hash import SHA256
 from listrum.client.crypto import bytes_to_int, import_pub
 from listrum.client.nodes import nodes
 
-
 class Client:
 
     def __init__(self, priv: dict = {}) -> None:

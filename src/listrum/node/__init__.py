@@ -55,7 +55,6 @@ class Node(Server):
 
         if req.method == "send":
             tx = Tx(req.body)
-
             tx.verify()
             tx.check_time()
             tx.check_value()
@@ -63,11 +62,10 @@ class Node(Server):
             tx.from_value += self.repay.add(tx.value)
             self.tx_list.add(tx)
             tx.add_value()
-
             req.end()
 
             self.on_send(tx)
-            nodes.send(tx)
+            nodes.send(tx.params)
 
         self.on_request(req)
 

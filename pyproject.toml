@@ -3,7 +3,7 @@ requires = ["pycryptodome", "requests", "certifi", "setuptools"]
 
 [project]
 name = "Listrum"
-version = "1.2.14b"
+version = "1.2.16b"
 authors = [
   { name="Listrum developers", email="contact@listrum.com" },
 ]

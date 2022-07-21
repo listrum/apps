@@ -30,7 +30,7 @@ def import_pub(priv: ECC.EccKey):
 
 
 def verify(pub: str, data: str, sign: str) -> bool:
-    # print(key, data, sign)
+    # print(pub, data, sign)
     pub = ECC.import_key(urlsafe_b64decode(pub))
     sign = urlsafe_b64decode(sign)
 

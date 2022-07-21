@@ -61,8 +61,12 @@ class Nodes:
                 if address:
                     self.broadcast.append(NodeReq(address))
 
-    def send(self, tx) -> None:
-        tx = json.dumps(tx.data)
+        if not self.trusted:
+            print("No trusted! Add in your user dir /listrum/trusted_nodes.txt")
+
+
+    def send(self, tx: dict) -> None:
+        tx = json.dumps(tx)
 
         for node in self.broadcast:
             try:
