@@ -69,12 +69,17 @@ class Node(Server):
             self.on_send(tx)
             nodes.send(tx)
 
+        self.on_request(req)
+
         req.end("", 401)
 
     def issue(self, value: float) -> None:
         storage.set(self.wallet, storage.get(self.wallet) + float(value))
 
     def on_send(self, tx: Tx) -> None:
+        pass
+
+    def on_request(self, req:Request)->None:
         pass
 
     def command(self) -> None:
