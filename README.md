@@ -1,4 +1,4 @@
-# [Run](https://github.com/listrum/main#running-a-node) / [Networking](https://github.com/listrum/node-client#node-interface) / [API](https://github.com/listrum/node-client#nodes-api)
+# [Client](https://github.com/listrum/main#client-class-api) | [Node](https://github.com/listrum/main#node-class-api) | [Networking](https://github.com/listrum/node-client#nodes-api)
 ## Running listrum
 **Requirements**: python3, pip, domain with an SSL certificate
 
@@ -7,6 +7,16 @@
 
 - Starting a node:
 >`python3 -m listrum`
+
+## Client
+
+### Client class API
+	Client(key: dict = {}) - use plain JWK from browser or generates new
+	send_all(to: str) - sends all funds to wallet address
+	balance() -> float - balance of imported key
+	wallet: str - get padded wallet address
+
+## Node
 
 ### Node Config:
 	{
@@ -21,11 +31,11 @@
 - /q - close node
 - /update - update your nodes list 
 
-## Node class API
+### Node class API
 	on_send(Tx) - called on successfull tx
 	on_request(Request) - called on request
 
-### Glossary:
+## Glossary:
 - **Node list** - node list to send and get data from
 - **Repay** - amount of value payed back to sender
 - **Fee** - difference between sended and received value
@@ -38,14 +48,14 @@
 - **broadcast_nodes** - nodes where tx will be broadcasted (auto for trusted nodes)
 
 
-### Networking:
+## Networking:
 
-#### Balance:
+### Balance:
 	HTTPS GET :2525/balance/WalletAddress
 	
 	200 OK balance 
 
-#### Send:
+### Send:
 	HTTPS GET :2525/send/
 	{
 		"from": {
@@ -65,10 +75,3 @@
 	HTTPS GET :2525/fee
 
 	200 OK Fee
-	
-
-## Client class API
-	Client(key: dict = {}) - use plain JWK from browser
-	send_all(to: str) - sends all funds to address
-	balance() -> float - balance of the key, with nodes provided
-	wallet: str - client's padded wallet
