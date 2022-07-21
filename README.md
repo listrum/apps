@@ -1,4 +1,4 @@
-# [Client](https://github.com/listrum/main#client-class-api) | [Node](https://github.com/listrum/main#node-class-api) | [Networking](https://github.com/listrum/node-client#nodes-api)
+# [Client](https://github.com/listrum/main#client) | [Node](https://github.com/listrum/main#node) | [Networking](https://github.com/listrum/main#networking) | [Glossary](https://github.com/listrum/main#glossary)
 ## Running listrum
 **Requirements**: python3, pip, domain with an SSL certificate
 
