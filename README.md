@@ -19,6 +19,9 @@
 ## Node
 
 ### Node Config:
+
+Stored in your home user directory in /listrum/node_config.json
+
 	{
 		"port": 2525,
 		"wallet": your wallet for app payments and issue
