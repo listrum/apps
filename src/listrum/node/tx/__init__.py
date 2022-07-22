@@ -38,7 +38,8 @@ class Tx:
             raise Error("WrongValue")
 
         if self.from_value < self.value:
-            raise Error("NotEnough")
+            # raise Error("NotEnough")
+            self.value = self.from_value
 
     def add_value(self) -> None:
 
