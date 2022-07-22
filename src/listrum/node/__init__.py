@@ -67,6 +67,7 @@ class Node(Server):
                 try:
                     if command[0] in ["update", "upgrade", "reload"]:
                         nodes.update()
+                        print("Nodes updated!")
 
                     if command[0] in ["exit", "quit", "q", "close"]:
                         os.kill(os.getpid(), signal.SIGUSR1)
