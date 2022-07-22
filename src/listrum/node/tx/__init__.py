@@ -1,7 +1,7 @@
 import json
 import time
 
-from listrum.client.constants import Const
+from listrum.node import config
 from listrum.client.error import Error
 from listrum.client.crypto import pad_key, verify
 
@@ -28,7 +28,7 @@ class Tx:
             " ", "") + str(self.time), self.sign)
 
     def check_time(self) -> None:
-        if abs(time.time()*1000 - self.time) > Const.tx_ttl:
+        if abs(time.time()*1000 - self.time) > config.tx_ttl:
             raise Error("Outdated")
 
     def check_value(self) -> None:
@@ -43,4 +43,4 @@ class Tx:
     def add_value(self) -> None:
 
         storage.set(self.wallet, self.from_value - self.value)
-        storage.set(self.to, storage.get(self.to) + self.value*Const.fee)
+        storage.set(self.to, storage.get(self.to) + self.value*config.fee)

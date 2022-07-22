@@ -3,19 +3,19 @@ import re
 import requests
 import os
 
-from listrum.client.constants import Const
+from listrum.node import config
 
 
 class NodeReq:
     def __init__(self, address: str) -> None:
 
-        self.address = address
+        address = address
 
         if len(re.findall(r":[0-9]+$", address)) < 1:
-            self.address += ":" + str(Const.port)
+            address += ":" + str(config.port)
 
         if address.find("https://") < 0:
-            self.address = "https://" + self.address
+            address = "https://" + address
 
     def balance(self, wallet: str) -> float:
         res = requests.get(self.address + "/balance/" + str(wallet), timeout=3)
@@ -25,78 +25,73 @@ class NodeReq:
         requests.get(self.address + "/send/" + str(tx), timeout=3)
 
 
-class Nodes:
-    path = os.path.expanduser("~") + "/listrum/"
+path = os.path.expanduser("~") + "/listrum/"
+trusted = []
+broadcast = []
 
-    def __init__(self) -> None:
-        self.trusted = []
-        self.broadcast = []
 
+def update() -> None:
+
+    try:
+        open(path + "trusted_nodes.txt")
+    except:
+        open(path + "trusted_nodes.txt", "w")
+
+    try:
+        open(path + "broadcast_nodes.txt")
+    except:
+        open(path + "broadcast_nodes.txt", "w")
+
+    with open(path + "trusted_nodes.txt") as f:
+        for address in f.read().split("\n"):
+            if address:
+                trusted.append(NodeReq(address))
+
+    with open(path + "broadcast_nodes.txt") as f:
+        for address in f.read().split("\n"):
+            if address:
+                broadcast.append(NodeReq(address))
+
+    if not trusted:
+        print("No trusted! Add in your user dir /listrum/trusted_nodes.txt")
+
+
+def send(self, tx: dict) -> None:
+    tx = json.dumps(tx)
+
+    for node in broadcast:
         try:
-            os.mkdir(self.path)
+            node.send(tx)
         except:
-            pass
+            print("Unable to send to " + node.address)
 
-        self.update()
-
-    def update(self) -> None:
-
+    for node in trusted:
         try:
-            open(self.path + "trusted_nodes.txt")
+            node.send(tx)
         except:
-            open(self.path + "trusted_nodes.txt", "w")
+            print("Unable to send to " + node.address)
 
+
+def balance(wallet: str) -> float:
+    balance = 0
+    sources = 0
+
+    for node in trusted:
         try:
-            open(self.path + "broadcast_nodes.txt")
-        except:
-            open(self.path + "broadcast_nodes.txt", "w")
+            balance += node.balance(wallet)
+            sources += 1
 
-        with open(self.path + "trusted_nodes.txt") as f:
-            for address in f.read().split("\n"):
-                if address:
-                    self.trusted.append(NodeReq(address))
+        except BaseException as b:
+            print("Unable get balance from " + node.address)
 
-        with open(self.path + "broadcast_nodes.txt") as f:
-            for address in f.read().split("\n"):
-                if address:
-                    self.broadcast.append(NodeReq(address))
+    if not sources:
+        return 0.0
 
-        if not self.trusted:
-            print("No trusted! Add in your user dir /listrum/trusted_nodes.txt")
+    return balance/sources
 
 
-    def send(self, tx: dict) -> None:
-        tx = json.dumps(tx)
-
-        for node in self.broadcast:
-            try:
-                node.send(tx)
-            except:
-                print("Unable to send to " + node.address)
-
-        for node in self.trusted:
-            try:
-                node.send(tx)
-            except:
-                print("Unable to send to " + node.address)
-
-    def balance(self, wallet: str) -> float:
-        balance = 0
-        sources = 0
-
-
-        for node in self.trusted:
-            try:
-                balance += node.balance(wallet)
-                sources += 1
-
-            except BaseException as b:
-                print("Unable get balance from " + node.address)
-
-        if not sources:
-            return 0.0
-
-        return balance/sources
-
-
-nodes = Nodes()
+try:
+    os.makedirs(path)
+except:
+    pass
+update()

@@ -1,5 +1,5 @@
 import time
-from listrum.client.constants import Const
+from listrum.node import config
 from listrum.client.error import Error
 
 
@@ -16,5 +16,5 @@ class TxList:
 
         self.tx_list.append(new_tx)
 
-        if abs(self.tx_list[0].time - time.time()*1000) > Const.tx_ttl:
+        if abs(self.tx_list[0].time - time.time()*1000) > config.tx_ttl:
             self.tx_list.pop(0)

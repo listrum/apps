@@ -1,6 +1,6 @@
 import time
 
-from listrum.client.constants import Const
+from listrum.node import config
 
 
 class Repay:
@@ -14,7 +14,7 @@ class Repay:
     def add(self, amount: float) -> None:
         self.current += amount
 
-        if time.time()*1000 - self.last_update > Const.repay_update:
+        if time.time()*1000 - self.last_update > config.repay_update:
             self.last_update = time.time()*1000
             self.total += self.before - self.current
 
@@ -22,7 +22,7 @@ class Repay:
             self.current = 0
 
         if self.total > 0:
-            res = self.total*Const.repay_value
+            res = self.total*config.repay_value
             self.total -= res
         else:
             res = 0

@@ -3,7 +3,7 @@ from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 
-from listrum.client.constants import Const
+from listrum.node import config
 
 
 def int_to_bytes(number: int) -> str:
@@ -18,7 +18,7 @@ def pad_key(pub: str) -> str:
     pub = pub.encode() + b".listrum"
     hash = SHA256.new(pub).digest()
 
-    return urlsafe_b64encode(hash).decode()[:Const.pad_length]
+    return urlsafe_b64encode(hash).decode()[:config.pad_length]
 
 
 def import_pub(priv: ECC.EccKey):

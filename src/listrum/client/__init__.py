@@ -8,7 +8,8 @@ from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 
 from listrum.client.crypto import bytes_to_int, import_pub
-from listrum.client.nodes import nodes
+from listrum.client import nodes
+
 
 class Client:
 

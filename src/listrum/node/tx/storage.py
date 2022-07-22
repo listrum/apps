@@ -1,8 +1,8 @@
 import os
 from threading import Thread
 
-from listrum.client.nodes import nodes
-from listrum.client.constants import Const
+from listrum.client import nodes
+from listrum.node import config
 
 
 class Storage:
@@ -38,7 +38,7 @@ class Storage:
         except:
             self.res.append(wallet)
 
-            if len(self.res) > Const.temp_storage_len:
+            if len(self.res) > config.temp_storage_len:
                 self.res.pop(0)
 
             if balance > 0.0:
@@ -51,5 +51,6 @@ class Storage:
 
         with open(self.dir + wallet, "w") as f:
             f.write(str(value))
+
 
 storage = Storage()
