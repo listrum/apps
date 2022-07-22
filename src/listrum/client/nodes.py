@@ -56,7 +56,7 @@ def update() -> None:
         print("No trusted! Add in your user dir /listrum/trusted_nodes.txt")
 
 
-def send(self, tx: dict) -> None:
+def send(tx: dict) -> None:
     tx = json.dumps(tx)
 
     for node in broadcast:
@@ -73,13 +73,17 @@ def send(self, tx: dict) -> None:
 
 
 def balance(wallet: str) -> float:
-    balance = 0
+    total_balance = 0
     sources = 0
 
+    balance = 0
     for node in trusted:
         try:
-            balance += node.balance(wallet)
-            sources += 1
+            balance = node.balance(wallet)
+
+            if balance >= 0:
+                total_balance += balance
+                sources += 1
 
         except BaseException as b:
             print("Unable get balance from " + node.address)
