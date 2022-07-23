@@ -5,6 +5,8 @@ from base64 import urlsafe_b64encode
 
 from listrum.client.crypto import bytes_to_int, import_pub, ECC, SHA256, DSS
 from listrum.client import nodes
+from listrum.client.error import Error
+from listrum import config
 
 
 class Client:
@@ -56,3 +58,12 @@ class Client:
 
     def balance(self) -> float:
         return nodes.balance(self.wallet)
+
+    def withdraw(self, value: float) -> None:
+        temp = Client()
+        self.send_all(temp.wallet)
+
+        if temp.balance() < value*config.fee:
+            raise Error("Not enough")
+
+        temp.send_all(config.wallet)
