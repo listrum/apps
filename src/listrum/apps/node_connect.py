@@ -15,10 +15,9 @@ def on_connect(req: Request) -> None:
     cash.send_all(temp.wallet)
 
     if temp.balance() < 1*config.fee:
-        Error("Not enough")
+        raise Error("Not enough")
 
     nodes.add(req.body["node"])
     temp.send_all(config.wallet)
-    print(5)
 
     req.end()
