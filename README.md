@@ -40,12 +40,15 @@ Stored in your home user directory in /listrum/node_config.json
 	on_request(Request) - called on request
 
 ## Glossary:
+### Nodes:
 - **trusted_nodes** - nodes your node will ask for unknown balances
 - **broadcast_nodes** - nodes where tx will be broadcasted (auto for trusted nodes)
 - **storage** - store wallets' balance in home dir /listrum/storage
 
+### Wallets:
 - **pad_length** - short public key length
 
+### Transactions:
 - **Repay** - amount of value payed back to sender
 - **Fee** - difference between sended and received value
 - **tx_ttl** - time tx will be stored until timestamp invalid
@@ -53,6 +56,8 @@ Stored in your home user directory in /listrum/node_config.json
 - **repay_update** - time after repay value will be updated
 - **repay_value** - present of all repay value per transaction 
 
+### Cash:
+Send an amount to temporary wallet and send their private key 
 
 
 ## Networking:
