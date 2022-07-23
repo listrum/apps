@@ -6,7 +6,8 @@
 >`pip install listrum -U`
 
 - Starting a node:
->`python3 -m listrum`
+>`python3 -m listrum.node`
+Setup node_config.json in your home dir and start again
 
 ## Client
 
