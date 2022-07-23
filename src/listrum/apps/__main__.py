@@ -1,6 +1,4 @@
-import imp
-from listrum.client.https import Request
-from listrum.node import Node
+from listrum.node import Node, Request
 from listrum.apps.history import on_send_history, on_history
 
 
