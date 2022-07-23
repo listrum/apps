@@ -2,7 +2,7 @@ import os
 from threading import Thread
 
 from listrum.client import nodes
-from listrum.node import config
+from listrum import config
 
 
 class Storage:

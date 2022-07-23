@@ -3,11 +3,7 @@ import json
 import time
 from base64 import urlsafe_b64encode
 
-from Crypto.PublicKey import ECC
-from Crypto.Signature import DSS
-from Crypto.Hash import SHA256
-
-from listrum.client.crypto import bytes_to_int, import_pub
+from listrum.client.crypto import bytes_to_int, import_pub, ECC, SHA256, DSS
 from listrum.client import nodes
 
 

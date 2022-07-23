@@ -1,4 +1,4 @@
-from listrum.node import config
+from listrum import config
 from listrum.client.https import Request
 
 

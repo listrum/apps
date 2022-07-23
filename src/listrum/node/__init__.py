@@ -8,7 +8,7 @@ from listrum.node.tx.list import TxList
 from listrum.node.tx import Tx
 from listrum.node.balance import check_balance
 from listrum.node.fee import check_fee
-from listrum.node import config
+from listrum import config
 
 from listrum.client.https import Server, Request
 from listrum.client import nodes
@@ -70,8 +70,13 @@ class Node(Server):
                         print("Nodes updated!")
 
                     if command[0] in ["list", "nodes"]:
-                        print("Trusted: ", nodes.trusted)
-                        print("Broadcast: ", nodes.broadcast)
+                        print("Trusted:")
+                        for node in nodes.trusted:
+                            print(node.address)
+
+                        print("Broadcast:")
+                        for node in nodes.broadcast:
+                            print(node.address)
 
                     if command[0] in ["exit", "quit", "q", "close"]:
                         os.kill(os.getpid(), signal.SIGUSR1)

@@ -1,11 +1,11 @@
 import json
 import time
 
-from listrum.node import config
 from listrum.client.error import Error
 from listrum.client.crypto import pad_key, verify
 
 from listrum.node.tx.storage import storage
+from listrum import config
 
 
 class Tx:
@@ -44,4 +44,5 @@ class Tx:
     def add_value(self) -> None:
 
         storage.set(self.wallet, self.from_value - self.value)
-        storage.set(self.to, storage.get(self.to) + self.value*config.fee)
+        storage.set(self.to, storage.get(self.to) +
+                    self.value*config.fee)

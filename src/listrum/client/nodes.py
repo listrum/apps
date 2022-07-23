@@ -3,7 +3,7 @@ import re
 import requests
 import os
 
-from listrum.node import config
+from listrum import config
 
 
 class NodeReq:
@@ -63,7 +63,8 @@ def send(tx: dict) -> None:
         try:
             node.send(tx)
         except:
-            print("Unable to send to " + node.address)
+            pass
+            # print("Unable to send to " + node.address)
 
     for node in trusted:
         try:
@@ -101,7 +102,7 @@ def add(address: str) -> None:
     if address.find("https://") < 0:
         address = "https://" + address
 
-    broadcast.append(address)
+    broadcast.append(NodeReq(address))
 
 
 try:

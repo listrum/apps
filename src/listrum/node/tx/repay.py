@@ -1,6 +1,6 @@
 import time
 
-from listrum.node import config
+from listrum import config
 
 
 class Repay:

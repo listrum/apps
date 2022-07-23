@@ -1,5 +1,5 @@
 import time
-from listrum.node import config
+from listrum import config
 from listrum.client.error import Error
 
 
