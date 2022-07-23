@@ -16,6 +16,14 @@ Setup node_config.json in your home dir and start again
 	send_all(to: str) - sends all funds to wallet address
 	balance() -> float - balance of imported key
 	wallet: str - get padded wallet address
+	
+### Making apps:
+	from listrum.client import Client
+
+	cash = Client(req["cash_key"])
+	cash.withdraw(1)
+	
+	print("Success")
 
 ## Node
 
@@ -38,6 +46,24 @@ Stored in your home user directory in /listrum/node_config.json
 ### Node class API
 	on_send(Tx) - called on successfull tx
 	on_request(Request) - called on request
+	
+### Node apps:
+Start all apps with
+> `python3 -m listrum.apps`
+
+Launchaing app example:
+	from listrum.node import Node, Request
+	from listrum.node.tx import Tx
+	
+	def on_request(req: Request) -> None:
+		on_buy(req)
+		
+	def log(tx: Tx) -> None:
+		print(tx.params)	
+	
+	node = Node()
+	node.on_request = on_request
+	node.on_send = log
 
 ## Glossary:
 ### Nodes:
