@@ -69,6 +69,10 @@ class Node(Server):
                         nodes.update()
                         print("Nodes updated!")
 
+                    if command[0] in ["list", "nodes"]:
+                        print("Trusted: ", nodes.trusted)
+                        print("Broadcast: ", nodes.broadcast)
+
                     if command[0] in ["exit", "quit", "q", "close"]:
                         os.kill(os.getpid(), signal.SIGUSR1)
 

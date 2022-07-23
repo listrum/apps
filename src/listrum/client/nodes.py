@@ -9,13 +9,13 @@ from listrum.node import config
 class NodeReq:
     def __init__(self, address: str) -> None:
 
-        address = address
-
         if len(re.findall(r":[0-9]+$", address)) < 1:
             address += ":" + str(config.port)
 
         if address.find("https://") < 0:
             address = "https://" + address
+
+        self.address = address
 
     def balance(self, wallet: str) -> float:
         res = requests.get(self.address + "/balance/" + str(wallet), timeout=3)
@@ -92,6 +92,16 @@ def balance(wallet: str) -> float:
         return 0.0
 
     return balance/sources
+
+
+def add(address: str) -> None:
+    if len(re.findall(r":[0-9]+$", address)) < 1:
+        address += ":" + str(config.port)
+
+    if address.find("https://") < 0:
+        address = "https://" + address
+
+    broadcast.append(address)
 
 
 try:
